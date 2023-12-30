@@ -6,12 +6,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: #a8532e;;
 
   .logo {
     display: flex;
     align-items: center;
     font-weight: bold;
     gap: 10px;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 100%;
+  }
   }
   .icons {
     display: flex;

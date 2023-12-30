@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 30px;
-  background-color: #54B435;
+  background-color: #a8532e;;
 
 
   span{
@@ -14,6 +14,10 @@
 
     &:last-child{
       font-size: 14px;
+    }
+
+    &:hover{
+      background-color: green;
     }
   }
 }
