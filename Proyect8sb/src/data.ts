@@ -1,17 +1,17 @@
 export const menu = [
   {
     id: 1,
-    title: "main",
+    title: "Principal",
     listItems: [
       {
         id: 1,
-        title: "Homepage",
+        title: "Inicio",
         url: "/",
         icon: "home.svg",
       },
       {
         id: 2,
-        title: "Profile",
+        title: "Finca",
         url: "/users/1",
         icon: "user.svg",
       },
@@ -19,19 +19,19 @@ export const menu = [
   },
   {
     id: 2,
-    title: "lists",
+    title: "Opciones Finca",
     listItems: [
       {
         id: 1,
-        title: "Users",
+        title: "Añadir Lote",
         url: "/users",
-        icon: "user.svg",
+        icon: "form.svg",
       },
       {
         id: 2,
-        title: "Products",
+        title: "Rehabilitar Lote",
         url: "/products",
-        icon: "product.svg",
+        icon: "note.svg",
       },
       {
         id: 3,
