@@ -3,18 +3,19 @@
 .adfinca {
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: absolute; /* Cambiado de absolute a fixed para asegurar la posición */
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.724);
+
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.3s, transform 0.3s;
 
   .modal {
     padding: 50px;
-    border-radius: 10px;
-    background-color: $main-bg;
+    border-radius: 30px;
+    background-color: #e3e37740;
     position: relative;
 
     h1 {
@@ -52,14 +53,23 @@
           background-color: transparent;
           color: white;
           outline: none;
+          border-radius: 50px; 
           border: 1px solid $soft-color;
           border-radius: 3px;
         }
       }
+
       button {
         width: 100%;
         padding: 10px;
         cursor: pointer;
+        background-color: green; /* Estilo de color verde para el botón */
+        border-radius: 50px; /* Añadiendo un border radius */
+        color: rgb(3, 2, 2); /* Ajustando el color del texto para mayor contraste */
+
+        &:hover {
+          background-color: darkgreen; /* Cambio de color al pasar el ratón sobre el botón */
+        }
       }
     }
   }
