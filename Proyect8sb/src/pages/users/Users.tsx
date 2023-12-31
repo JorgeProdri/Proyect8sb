@@ -4,7 +4,7 @@ import "./Users.scss";
 import { useState } from "react";
 import Add from "../../components/add/Add";
 import { userRows } from "../../data";
-// import { useQuery } from "@tanstack/react-query";
+
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -32,18 +32,7 @@ const columns: GridColDef[] = [
     headerName: "Phone",
     width: 200,
   },
-  {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 200,
-    type: "string",
-  },
-  {
-    field: "verified",
-    headerName: "Verified",
-    width: 150,
-    type: "boolean",
-  },
+
 ];
 
 const Users = () => {

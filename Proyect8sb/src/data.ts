@@ -30,7 +30,7 @@ export const menu = [
       {
         id: 2,
         title: "Rehabilitar Lote",
-        url: "/products",
+        url: "/finca",
         icon: "note.svg",
       },
       {

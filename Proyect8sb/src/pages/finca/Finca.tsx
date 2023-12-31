@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "contacto",
-    type: "string",
+    type: "int",
     headerName: "Contacto",
     width: 200,
   },
