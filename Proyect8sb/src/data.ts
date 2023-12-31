@@ -77,42 +77,6 @@ export const menu = [
       },
     ],
   },
-  {
-    id: 4,
-    title: "Maintenance",
-    listItems: [
-      {
-        id: 1,
-        title: "Settings",
-        url: "/",
-        icon: "setting.svg",
-      },
-      {
-        id: 2,
-        title: "Backups",
-        url: "/",
-        icon: "backup.svg",
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: "analytics",
-    listItems: [
-      {
-        id: 1,
-        title: "Charts",
-        url: "/",
-        icon: "chart.svg",
-      },
-      {
-        id: 2,
-        title: "Logs",
-        url: "/",
-        icon: "log.svg",
-      },
-    ],
-  },
 ];
 
 export const topDealUsers = [

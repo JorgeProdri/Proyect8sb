@@ -9,14 +9,6 @@ import { userRows } from "../../data";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
-    field: "img",
-    headerName: "Avatar",
-    width: 100,
-    renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
-    },
-  },
-  {
     field: "firstName",
     type: "string",
     headerName: "First name",
@@ -70,8 +62,8 @@ const Users = () => {
   return (
     <div className="users">
       <div className="info">
-        <h1>Users</h1>
-        <button onClick={() => setOpen(true)}>Add New User</button>
+        <h1>Finca</h1>
+        <button onClick={() => setOpen(true)}>Añadir Finca</button>
       </div>
       <DataTable slug="users" columns={columns} rows={userRows} />
       {/* TEST THE API */}
