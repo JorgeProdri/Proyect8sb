@@ -8,7 +8,6 @@ import Login from "./pages/login/Login";
 import "./styles/global.scss";
 import User from "./pages/user/User";
 import Finca from "./pages/finca/Finca";
-
 import Product from "./pages/product/Product";
 import {
   QueryClient,

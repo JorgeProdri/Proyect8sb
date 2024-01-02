@@ -1,14 +1,15 @@
 @import "../../styles/variables.scss";
 
 .adfinca {
-  width: 100vw;
-  height: 100vh;
-  position: absolute; 
+  width: 100%;
+  height: 100%;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.724);
   transition: opacity 0.3s, transform 0.3s;
 
   .modal {
@@ -26,7 +27,7 @@
     .logo {
       display: flex;
       align-items: center;
-      justify-content: center; /* Agregado para centrar horizontalmente */
+      justify-content: center;
       font-weight: bold;
       gap: 10px;
 
@@ -51,10 +52,7 @@
       justify-content: space-between;
 
       .item {
-        width: 40%;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+        width: 48%; /* Cambio del ancho al 48% para mostrar dos elementos en una fila */
         margin-bottom: 20px;
 
         label {
@@ -62,13 +60,13 @@
         }
 
         input {
+          width: 100%;
           padding: 10px;
           background-color: transparent;
           color: white;
           outline: none;
-          border-radius: 50px; 
-          border: 1px solid $soft-color;
           border-radius: 3px;
+          border: 1px solid $soft-color;
         }
       }
 
@@ -77,7 +75,7 @@
         padding: 10px;
         cursor: pointer;
         background-color: green;
-        border-radius: 50px;
+        border-radius: 3px;
         color: rgb(3, 2, 2);
 
         &:hover {
@@ -85,5 +83,17 @@
         }
       }
     }
+
+    // Consulta de medios para dispositivos móviles
+    @media only screen and (max-width: 600px) {
+      .modal {
+        padding: 20px; /* Reducción del padding en dispositivos móviles */
+      }
+
+      .item {
+        width: 100%; /* Cambio del ancho al 100% para ocupar el espacio completo en dispositivos móviles */
+      }
+    }
   }
 }
+

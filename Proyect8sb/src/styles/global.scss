@@ -1,3 +1,5 @@
+// styles.scss
+
 @import "./variables.scss";
 @import "./responsive.scss";
 
@@ -28,8 +30,18 @@ a {
   border-right: 2px solid $soft-bg;
   background-color: #a8532e;
 
-  @include lg{
+  @include lg {
     width: max-content;
+  }
+
+  // Nuevos estilos para tamaños pequeños
+  @include sm {
+    width: 100%;
+  }
+
+  // Nuevos estilos para tamaños medianos
+  @include md {
+    padding: 10px;
   }
 }
 
