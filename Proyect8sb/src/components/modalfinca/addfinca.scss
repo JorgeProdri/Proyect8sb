@@ -3,10 +3,9 @@
 .adfinca {
   width: 100vw;
   height: 100vh;
-  position: absolute; /* Cambiado de absolute a fixed para asegurar la posición */
+  position: absolute; 
   top: 0;
   left: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,13 +14,27 @@
   .modal {
     padding: 50px;
     border-radius: 30px;
-    background-color: #e3e37740;
+    background-color: #e3e377;
     position: relative;
 
     h1 {
       margin-bottom: 40px;
       font-size: 24px;
       color: $soft-color;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Agregado para centrar horizontalmente */
+      font-weight: bold;
+      gap: 10px;
+
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+      }
     }
 
     .close {
@@ -63,12 +76,12 @@
         width: 100%;
         padding: 10px;
         cursor: pointer;
-        background-color: green; /* Estilo de color verde para el botón */
-        border-radius: 50px; /* Añadiendo un border radius */
-        color: rgb(3, 2, 2); /* Ajustando el color del texto para mayor contraste */
+        background-color: green;
+        border-radius: 50px;
+        color: rgb(3, 2, 2);
 
         &:hover {
-          background-color: darkgreen; /* Cambio de color al pasar el ratón sobre el botón */
+          background-color: darkgreen;
         }
       }
     }
