@@ -1,22 +1,29 @@
-.footer{
+@import "../../styles/variables.scss";
+@import "../../styles/responsive.scss";
+
+.footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30px;
-  background-color: #a8532e;;
+  padding: 20px; /* Reducción del padding para pantallas más pequeñas */
+  background-color: #a8532e;
 
+  @include sm {
+    flex-direction: column; /* Cambio a columna en pantallas más pequeñas */
+    text-align: center; /* Centrado del texto en pantallas más pequeñas */
+    padding: 15px; /* Ajuste de padding para pantallas más pequeñas */
+  }
 
-  span{
-
-    &:first-child{
+  span {
+    &:first-child {
       font-weight: bold;
     }
 
-    &:last-child{
+    &:last-child {
       font-size: 14px;
     }
 
-    &:hover{
+    &:hover {
       background-color: green;
     }
   }

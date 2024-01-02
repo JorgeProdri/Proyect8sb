@@ -14,8 +14,9 @@
       color: $soft-color;
       text-transform: uppercase;
 
-      @include lg{
-        display: none;
+      @include lg {
+        font-size: 14px;
+        display: block;
       }
     }
 
@@ -30,9 +31,10 @@
         background-color: $soft-bg;
       }
 
-      .listItemTitle{
-        @include lg{
-          display: none;
+      .listItemTitle {
+        @include lg {
+          font-size: 14px;
+          display: block;
         }
       }
     }
