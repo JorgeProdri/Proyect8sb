@@ -11,7 +11,7 @@ export const menu = [
       },
       {
         id: 2,
-        title: "Finca",
+        title: "Hacienda Victoria",
         url: "/users/1",
         icon: "user.svg",
       },
