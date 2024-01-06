@@ -1,20 +1,36 @@
-.finca {
+.users {
   .info {
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
 
     button {
-      padding: 5px;
+      font-size: 16px;
+      padding: 10px;
       cursor: pointer;
-      background-color: green; /* Color de fondo verde */
-      border-radius: 5px; /* Borde redondeado */
-      color: white; /* Color del texto en blanco para mayor contraste */
+      background-color: green;
+      border-radius: 20px;
+      color: white;
 
       &:hover {
-        background-color: darkgreen; /* Cambio de color al pasar el ratón sobre el botón */
+        background-color: darkgreen;
       }
+    }
+  }
+}
+
+// Consulta de medios para dispositivos móviles
+@media only screen and (max-width: 600px) {
+  .info {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+      margin-top: 10px;
     }
   }
 }

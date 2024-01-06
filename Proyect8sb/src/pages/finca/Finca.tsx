@@ -1,5 +1,6 @@
 import { GridColDef } from "@mui/x-data-grid";
-import DataTable from "../../components/dataTable/DataTable";
+//import DataTable from "../../components/dataTableH/DataTableH";
+import DataTableH from "../../components/datatableH/DataTableH";
 import "./finca.scss";
 import { useState } from "react";
 import Addfinca from "../../components/modalfinca/Addfinca"; 
@@ -42,7 +43,7 @@ const Finca = () => {
         <h1>Hacienda</h1>
         <button onClick={() => setOpen(true)}>Añadir Hacienda</button>
       </div>
-      <DataTable slug="Hacienda" columns={columns} rows={userRows} />
+      <DataTableH slug="Hacienda" columns={columns} rows={userRows} />
       {open && <Addfinca slug="Hacienda" columns={columns} setOpen={setOpen} />}
     </div>
   );
