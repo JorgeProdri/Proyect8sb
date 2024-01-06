@@ -10,7 +10,7 @@ const columns: GridColDef[] = [
   {
     field: "codigo",
     type: "int",
-    headerName: "Codigo",
+    //headerName: "Codigo",
     width: 150,
   },
   {

@@ -21,13 +21,11 @@ const Addfinca = (props: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Verificar si algún campo está vacío
     const isEmptyField = Object.values(formValues).some((value) => !value.trim());
 
     if (isEmptyField) {
       alert("Por favor, completa todos los campos antes de enviar.");
     } else {
-      // Realizar la lógica de envío del formulario aquí
       props.setOpen(false);
     }
   };
@@ -46,14 +44,14 @@ const Addfinca = (props: Props) => {
           {props.columns
             .filter((item) => item.field !== "id" && item.field !== "img")
             .map(({ field, type, headerName }) => (
-              <div className="item" key={field}>
+              <div className={`item ${field === "codigo" ? "hidden" : ""}`} key={field}>
                 <label>{headerName}</label>
                 <input
                   type={type}
                   placeholder={field}
-                  name={field} // Añade el atributo name para identificar el campo
-                  onChange={handleChange} // Manejar cambios en el valor del campo
-                  required // Campo obligatorio
+                  name={field}
+                  onChange={handleChange}
+                  required
                 />
               </div>
             ))}

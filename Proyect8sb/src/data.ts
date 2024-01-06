@@ -29,7 +29,7 @@ export const menu = [
       },
       {
         id: 2,
-        title: "Rehabilitar Lote",
+        title: "Añadir Hacienda",
         url: "/finca",
         icon: "note.svg",
       },
