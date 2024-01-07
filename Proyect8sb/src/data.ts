@@ -19,7 +19,7 @@ export const menu = [
   },
   {
     id: 2,
-    title: "Opciones Finca",
+    title: "Opciones de hacienda",
     listItems: [
       {
         id: 1,

@@ -22,6 +22,11 @@ a {
 
 .container {
   display: flex;
+
+  // Nuevos estilos para tamaños pequeños
+  @include sm {
+    flex-direction: column;
+  }
 }
 
 .menuContainer {
@@ -37,6 +42,7 @@ a {
   // Nuevos estilos para tamaños pequeños
   @include sm {
     width: 100%;
+    border: none; // Eliminar el borde derecho en tamaños pequeños
   }
 
   // Nuevos estilos para tamaños medianos
@@ -49,4 +55,10 @@ a {
   padding: 5px 20px;
   width: 100%;
   background-color: white;
+
+  // Nuevos estilos para tamaños pequeños
+  @include sm {
+    margin-top: 10px; // Agregar un poco de espacio en la parte superior en tamaños pequeños
+  }
 }
+
