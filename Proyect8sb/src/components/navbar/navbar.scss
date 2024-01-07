@@ -6,26 +6,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #a8532e;;
+  background-color: #a8532e;
 
   .logo {
     display: flex;
     align-items: center;
     font-weight: bold;
     gap: 10px;
+
     img {
       width: 80px;
       height: 80px;
       border-radius: 100%;
+    }
   }
-  }
+
   .icons {
     display: flex;
     align-items: center;
     gap: 20px;
 
-    .icon{
-      @include sm{
+    .icon {
+      // Ocultar iconos en pantallas pequeñas
+      @media only screen and (max-width: 600px) {
         display: none;
       }
     }

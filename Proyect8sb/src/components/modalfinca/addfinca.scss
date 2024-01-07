@@ -1,5 +1,3 @@
-// addfinca.scss
-
 @import "../../styles/variables.scss";
 
 .adfinca {
@@ -19,6 +17,7 @@
     border-radius: 30px;
     background-color: #e3e377;
     position: relative;
+    max-width: 600px; // Establecer un ancho máximo para el modal
 
     h1 {
       margin-bottom: 40px;
@@ -50,7 +49,6 @@
     form {
       display: flex;
       flex-wrap: wrap;
-      max-width: 500px;
       justify-content: space-between;
 
       .item {

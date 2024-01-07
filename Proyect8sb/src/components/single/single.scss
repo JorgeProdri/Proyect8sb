@@ -3,7 +3,7 @@
 .single {
   display: flex;
 
-  @include xl{
+  @include xl {
     flex-direction: column;
     gap: 50px;
   }
@@ -49,7 +49,7 @@
       border: 0.5px solid gray;
       margin: 20px 0px;
 
-      @include md{
+      @include md {
         display: none;
       }
     }
@@ -59,7 +59,7 @@
       width: 80%;
       height: 400px;
 
-      @include md{
+      @include md {
         display: none;
       }
     }
@@ -96,18 +96,32 @@
           padding: 15px;
           background-color: #f45b6810;
 
-          @include md{
+          @include md {
             min-width: 250px;
           }
 
-          p{
+          p {
             margin-bottom: 5px;
           }
 
-          time{
+          time {
             font-size: 12px;
           }
         }
+      }
+    }
+  }
+
+  // Estilos adicionales para pantallas pequeñas
+  @include sm {
+    .view,
+    .activities {
+      width: 100%; // Ocupar todo el ancho en pantallas pequeñas
+    }
+
+    .view {
+      .chart {
+        width: 100%; // Hacer el gráfico de ancho completo en pantallas pequeñas
       }
     }
   }
