@@ -1,7 +1,6 @@
 // styles.scss
 
 @import "./variables.scss";
-@import "./responsive.scss";
 
 * {
   margin: 0;
@@ -22,31 +21,32 @@ a {
 
 .container {
   display: flex;
+  flex-direction: column; // Por defecto, el contenedor tiene dirección de columna
 
-  // Nuevos estilos para tamaños pequeños
-  @include sm {
-    flex-direction: column;
+  // Nuevos estilos para tamaños medianos y grandes
+  @media only screen and (min-width: 601px) {
+    flex-direction: row;
   }
 }
 
 .menuContainer {
-  width: 250px;
+  width: 100%; // Ocupa todo el ancho por defecto
   padding: 5px 20px;
-  border-right: 2px solid $soft-bg;
   background-color: #a8532e;
 
-  @include lg {
+  // Nuevos estilos para tamaños medianos y grandes
+  @media only screen and (min-width: 601px) {
+    width: 250px;
+    border-right: 2px solid $soft-bg;
+  }
+
+  // Nuevos estilos para tamaños grandes
+  @media only screen and (min-width: 1200px) {
     width: max-content;
   }
 
-  // Nuevos estilos para tamaños pequeños
-  @include sm {
-    width: 100%;
-    border: none; // Eliminar el borde derecho en tamaños pequeños
-  }
-
   // Nuevos estilos para tamaños medianos
-  @include md {
+  @media only screen and (min-width: 601px) and (max-width: 1199px) {
     padding: 10px;
   }
 }
@@ -57,8 +57,7 @@ a {
   background-color: white;
 
   // Nuevos estilos para tamaños pequeños
-  @include sm {
-    margin-top: 10px; // Agregar un poco de espacio en la parte superior en tamaños pequeños
+  @media only screen and (max-width: 600px) {
+    margin-top: 10px;
   }
 }
-
