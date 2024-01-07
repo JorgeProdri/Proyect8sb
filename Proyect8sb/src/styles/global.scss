@@ -22,6 +22,7 @@ a {
 .container {
   display: flex;
   flex-direction: column; // Por defecto, el contenedor tiene dirección de columna
+  background-color: #a8532e;
 
   // Nuevos estilos para tamaños medianos y grandes
   @media only screen and (min-width: 601px) {
@@ -53,7 +54,7 @@ a {
 
 .contentContainer {
   padding: 5px 20px;
-  width: 100%;
+  width: 1000px;
   background-color: white;
 
   // Nuevos estilos para tamaños pequeños

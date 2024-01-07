@@ -2,7 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./Users.scss";
 import { useState } from "react";
-import AddUsuario from "../../components/modalCosecha/Addcosecha";
+import AddUsuarios from "../../components/modalUsuario/AddUsuarios";
 import { userRows } from "../../data";
 
 
@@ -13,6 +13,7 @@ const columns: GridColDef[] = [
     type: "string",
     headerName: "Cedula",
     width: 100,
+    
   },
   {
     field: "Nombre",
@@ -70,7 +71,7 @@ const Users = () => {
       ) : (
         <DataTable slug="users" columns={columns} rows={data} />
       )} */}
-      {open && <AddUsuario slug="ususario" columns={columns} setOpen={setOpen} />}
+      {open && <AddUsuarios slug="ususario" columns={columns} setOpen={setOpen} />}
     </div>
   );
 };

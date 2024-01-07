@@ -37,9 +37,7 @@ const AddUsuarios = (props: Props) => {
           X
         </span>
         <h1>Añadir nuevo {props.slug}</h1>
-        <div className="logo">
-          <img src="logoC.svg" alt="" />
-        </div>
+    
         <form onSubmit={handleSubmit}>
           {props.columns
             .filter((item) => item.field !== "id" && item.field !== "img")
