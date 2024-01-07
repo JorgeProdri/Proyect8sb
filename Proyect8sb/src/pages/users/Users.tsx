@@ -9,28 +9,46 @@ import { userRows } from "../../data";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
-    field: "firstName",
+    field: "Cedula",
     type: "string",
-    headerName: "First name",
-    width: 150,
+    headerName: "Cedula",
+    width: 100,
   },
   {
-    field: "lastName",
+    field: "Nombre",
     type: "string",
-    headerName: "Last name",
-    width: 150,
+    headerName: "Nombre",
+    width: 130,
   },
   {
-    field: "email",
+    field: "Apellido",
     type: "string",
-    headerName: "Email",
-    width: 200,
+    headerName: "Apellido",
+    width: 130,
   },
   {
-    field: "phone",
+    field: "Usuario",
     type: "string",
-    headerName: "Phone",
-    width: 200,
+    headerName: "Usuario",
+    width: 100,
+  },
+  {
+    field: "Contraseña",
+    type: "string",
+    headerName: "Contraseña",
+    width: 100,
+  },
+  {
+    field: "Telefono",
+    type: "string",
+    headerName: "Telefono",
+    width: 100,
+  },
+  {
+    field: "Estado",
+    type: "string",
+    headerName: "Estado",
+    width: 100,
   },
 
 ];
@@ -51,8 +69,8 @@ const Users = () => {
   return (
     <div className="users">
       <div className="info">
-        <h1>Finca</h1>
-        <button onClick={() => setOpen(true)}>Añadir Finca</button>
+        <h1>Usuarios</h1>
+        <button onClick={() => setOpen(true)}>Añadir Usuario</button>
       </div>
       <DataTable slug="users" columns={columns} rows={userRows} />
       {/* TEST THE API */}
