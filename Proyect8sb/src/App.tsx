@@ -8,6 +8,7 @@ import Login from "./pages/login/Login";
 import "./styles/global.scss";
 import User from "./pages/user/User";
 import Finca from "./pages/finca/Finca";
+import Cosecha from "./pages/cosecha/Cosecha";
 import Product from "./pages/product/Product";
 import {
   QueryClient,
@@ -53,6 +54,10 @@ function App() {
         {
           path: "/finca",
           element: <Finca />,
+        },
+        {
+          path: "/cosecha",
+          element: <Cosecha/>,
         },
         {
           path: "/users/:id",
