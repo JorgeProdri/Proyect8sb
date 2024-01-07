@@ -1,14 +1,25 @@
-.users{
-
-  .info{
+.users {
+  .info {
     display: flex;
+    flex-direction: column; /* Cambiado a columna en pantallas pequeñas */
     align-items: center;
     gap: 20px;
     margin-bottom: 20px;
 
-    button{
-      padding: 5px;
+    button {
+      padding: 10px; /* Aumentado el relleno para mayor comodidad táctil en pantallas pequeñas */
+      font-size: 15px;
       cursor: pointer;
+      color: black;
+      background-color: green;
+      border-radius: 20px;
+    }
+  }
+
+  @media screen and (min-width: 600px) {
+    /* Aplicar estilos específicos para pantallas más grandes (por ejemplo, tabletas y PC) */
+    .info {
+      flex-direction: row; /* Vuelve a la dirección de fila en pantallas más grandes */
     }
   }
 }

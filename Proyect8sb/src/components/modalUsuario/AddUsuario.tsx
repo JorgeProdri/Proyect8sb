@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./addusuario.scss"; // Asegúrate de tener este archivo de estilos
+import "./addusuarios.scss";
 import { GridColDef } from "@mui/x-data-grid";
 
 type Props = {
@@ -8,10 +8,10 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddUsuario = (props: Props) => {
+const AddUsuarios = (props: Props) => {
   const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
@@ -31,14 +31,14 @@ const AddUsuario = (props: Props) => {
   };
 
   return (
-    <div className="addusuario">
+    <div className="addusuarios">
       <div className="modal">
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>
         <h1>Añadir nuevo {props.slug}</h1>
         <div className="logo">
-          <img src="logoU.svg" alt="" />
+          <img src="logoC.svg" alt="" />
         </div>
         <form onSubmit={handleSubmit}>
           {props.columns
@@ -46,13 +46,25 @@ const AddUsuario = (props: Props) => {
             .map(({ field, type, headerName }) => (
               <div className={`item ${field === "codigo" ? "hidden" : ""}`} key={field}>
                 <label>{headerName}</label>
-                <input
-                  type={type}
-                  placeholder={field}
-                  name={field}
-                  onChange={handleChange}
-                  required
-                />
+                {field === "Estado" ? (
+                  <select
+                    name={field}
+                    onChange={handleChange}
+                    value={formValues[field] || ""}
+                    required
+                  >
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                ) : (
+                  <input
+                    type={type}
+                    placeholder={field}
+                    name={field}
+                    onChange={handleChange}
+                    required
+                  />
+                )}
               </div>
             ))}
           <button type="submit">Enviar</button>
@@ -62,4 +74,4 @@ const AddUsuario = (props: Props) => {
   );
 };
 
-export default AddUsuario;
+export default AddUsuarios;
