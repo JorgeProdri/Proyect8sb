@@ -1,4 +1,3 @@
-// Cosecha.jsx
 
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableH from "../../components/datatableH/DataTableH";

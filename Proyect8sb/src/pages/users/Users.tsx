@@ -2,7 +2,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
 import "./Users.scss";
 import { useState } from "react";
-import Add from "../../components/add/Add";
+import AddUsuario from "../../components/modalCosecha/Addcosecha";
 import { userRows } from "../../data";
 
 
@@ -80,7 +80,7 @@ const Users = () => {
       ) : (
         <DataTable slug="users" columns={columns} rows={data} />
       )} */}
-      {open && <Add slug="user" columns={columns} setOpen={setOpen} />}
+      {open && <AddUsuario slug="user" columns={columns} setOpen={setOpen} />}
     </div>
   );
 };
