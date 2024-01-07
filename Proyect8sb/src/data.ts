@@ -13,7 +13,7 @@ export const menu = [
         id: 2,
         title: "Hacienda Victoria",
         url: "/users/1",
-        icon: "user.svg",
+        icon: "home.svg",
       },
     ],
   },
@@ -23,15 +23,15 @@ export const menu = [
     listItems: [
       {
         id: 1,
-        title: "Añadir Lote",
-        url: "/users",
-        icon: "form.svg",
-      },
-      {
-        id: 2,
         title: "Añadir Hacienda",
         url: "/finca",
         icon: "note.svg",
+      },
+      {
+        id: 2,
+        title: "Añadir usuario",
+        url: "/users",
+        icon: "user.svg",
       },
       {
         id: 3,
