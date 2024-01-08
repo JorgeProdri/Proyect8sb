@@ -28,7 +28,7 @@ const Single = () => {
           </div>
         </div>
         <div className="image">
-          <img src="http://www.hacienda-victoria.com/es/wp-content/uploads/2023/06/foto-cacao6.jpg" alt="Cacao" />
+          <img src="cacao.svg" alt="" />      
         </div>
       </div>
     </div>

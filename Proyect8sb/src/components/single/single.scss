@@ -16,14 +16,13 @@
 
       .image {
         text-align: center;
-        margin-top: 20px; /* Ajusta según sea necesario */
+        margin-top: 20px;
 
         img {
-          width: 25%; /* La imagen ocupa el 100% del ancho del contenedor */
-          max-width: 200px; /* Ajusta el tamaño máximo de la imagen según sea necesario */
-          height: auto; /* La altura se ajusta automáticamente para mantener la proporción */
-          max-height: 500px;
-          margin-right: 10px; /* Ajusta el margen derecho de la imagen según sea necesario */
+          width: 100%;
+          max-width: 600px; /* Ajusta según sea necesario */
+          height: auto;
+          border-radius: 10px; /* Añadí un borde redondeado a la imagen */
         }
       }
     }
