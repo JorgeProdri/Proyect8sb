@@ -43,7 +43,7 @@ const Lotes = () => {
         <button onClick={() => setOpen(true)}>Añadir Lote</button>
       </div>
       <DataTableH slug="Lotes" columns={columns} rows={userRows} />
-      {open && <AddLotes slug="Lotes" columns={columns} setOpen={setOpen} />}
+      {open && <AddLotes slug="Lote" columns={columns} setOpen={setOpen} />}
     </div>
   );
 };

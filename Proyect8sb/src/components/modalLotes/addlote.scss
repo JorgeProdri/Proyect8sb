@@ -24,21 +24,6 @@
       font-size: 24px;
       color: $soft-color;
     }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      gap: 10px;
-
-      img {
-        width: 80px;
-        height: 80px;
-        border-radius: 100%;
-      }
-    }
-
     .close {
       position: absolute;
       top: 10px;
