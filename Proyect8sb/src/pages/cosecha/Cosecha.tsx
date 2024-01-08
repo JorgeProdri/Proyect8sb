@@ -1,7 +1,7 @@
 
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableH from "../../components/datatableH/DataTableH";
-import "./cosecha.scss"; // Asegúrate de tener el archivo de estilos adecuado
+import "./cosecha.scss"; // estilo
 import { useState } from "react";
 import AddCosecha from "../../components/modalCosecha/Addcosecha";
 import { userRows } from "../../data";

@@ -1,20 +1,25 @@
-@import "../../styles/variables.scss";
-@import "../../styles/responsive.scss";
-
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px; /* Reducción del padding para pantallas más pequeñas */
+  padding: 20px; /* Espaciado para pantallas más grandes */
   background-color: #2f513f;
+  height: 92px;
 
-  @include sm {
+  // Definir el punto de quiebre para pantallas pequeñas
+  $screen-sm: 600px;
+
+  @media screen and (max-width: $screen-sm) {
     flex-direction: column; /* Cambio a columna en pantallas más pequeñas */
+    align-items: center; /* Centrar elementos en pantallas más pequeñas */
     text-align: center; /* Centrado del texto en pantallas más pequeñas */
     padding: 15px; /* Ajuste de padding para pantallas más pequeñas */
+    height: auto; /* Altura automática para adaptarse al contenido */
   }
 
   span {
+    margin-bottom: 10px; /* Espaciado entre elementos en pantallas más pequeñas */
+
     &:first-child {
       font-weight: bold;
     }
