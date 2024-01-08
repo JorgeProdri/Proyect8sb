@@ -17,48 +17,56 @@ a {
   font-family: "Inter", sans-serif;
   background-color: $main-bg;
   color: $main-color;
-}
+  width: 100%;
+  height: 100%;
 
-.container {
-  display: flex;
-  flex-direction: column; // Por defecto, el contenedor tiene dirección de columna
-  background-color: #a8532e;
+  .container {
+    display: flex;
+    flex-direction: column; // Por defecto, el contenedor tiene dirección de columna
+    background-color: #a8532e;
+    border-bottom: 5px solid black;
 
-  // Nuevos estilos para tamaños medianos y grandes
-  @media only screen and (min-width: 601px) {
-    flex-direction: row;
-  }
-}
+    // Nuevos estilos para tamaños medianos y grandes
+    @media only screen and (min-width: 601px) {
+      flex-direction: row;
+      border-bottom: 2px solid black; // Añadido un borde inferior para separar los contenedores
+    }
 
-.menuContainer {
-  width: 100%; // Ocupa todo el ancho por defecto
-  padding: 5px 20px;
-  background-color: #a8532e;
+    .menuContainer {
+      width: 100%; // Ocupa todo el ancho por defecto
+      padding: 5px 20px;
+      background-color: #a8532e;
+      border-bottom: 2px solid black;
 
-  // Nuevos estilos para tamaños medianos y grandes
-  @media only screen and (min-width: 601px) {
-    width: 250px;
-    border-right: 2px solid $soft-bg;
-  }
+      // Nuevos estilos para tamaños medianos y grandes
+      @media only screen and (min-width: 601px) {
+        width: 25%; // Ajustado al 25% del ancho en pantallas medianas y grandes
+        border-right: 2px solid $soft-bg;
+      }
 
-  // Nuevos estilos para tamaños grandes
-  @media only screen and (min-width: 1200px) {
-    width: max-content;
-  }
+      // Nuevos estilos para tamaños grandes
+      @media only screen and (min-width: 1200px) {
+        width: max-content;
+      }
 
-  // Nuevos estilos para tamaños medianos
-  @media only screen and (min-width: 601px) and (max-width: 1199px) {
-    padding: 10px;
-  }
-}
+      // Nuevos estilos para tamaños medianos
+      @media only screen and (min-width: 601px) and (max-width: 1199px) {
+        padding: 10px;
+      }
+    }
 
-.contentContainer {
-  padding: 5px 20px;
-  width: 1000px;
-  background-color: white;
+    .contentContainer {
+      padding: 5px 20px;
+      width: 100%; 
+      max-width: 1000px; 
+      height: auto; 
+      background-color: white;
+      border-bottom: 2px solid black;
 
-  // Nuevos estilos para tamaños pequeños
-  @media only screen and (max-width: 600px) {
-    margin-top: 10px;
+      // Nuevos estilos para tamaños pequeños
+      @media only screen and (max-width: 600px) {
+        margin-top: 10px;
+      }
+    }
   }
 }
