@@ -1,29 +1,56 @@
 // single.scss
+
 .container2 {
   width: 100%;
   height: 100%;
 
   .single {
-    .view {
-      display: flex;
-      justify-content: space-between; /* Alineación de los elementos a ambos lados */
+    display: flex;
 
-      .hacienda-info,
-      .activities {
-        flex: 1; /* Ocupa el espacio disponible en el contenedor */
-        margin-right: 20px; /* Ajusta el margen entre las dos secciones según sea necesario */
+    .view {
+      flex: 1;
+
+      .hacienda-info {
+        h2 {
+          margin-bottom: 20px;
+        }
+
+        div {
+          margin-bottom: 10px;
+
+          strong {
+            margin-right: 10px;
+          }
+        }
       }
 
-      .image {
-        text-align: center;
-        margin-top: 20px;
-
-        img {
-          width: 100%;
-          max-width: 600px; /* Ajusta según sea necesario */
-          height: auto;
-          border-radius: 10px; /* Añadí un borde redondeado a la imagen */
+      .activities {
+        h2 {
+          margin-bottom: 20px;
         }
+
+        p {
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    .image {
+      text-align: center;
+      margin-top: 20px;
+
+      img {
+        width: 100%;
+        max-width: 600px; // Ajusta el ancho máximo según sea necesario
+        height: auto; // Mantiene la proporción de aspecto
+        border-radius: 10px;
+      }
+
+      span {
+        display: block;
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
       }
     }
   }

@@ -1,5 +1,6 @@
-
+// Single.tsx
 import "./single.scss";
+import imagenHacienda from './cacao.jpg';
 
 const Single = () => {
   return (
@@ -28,7 +29,8 @@ const Single = () => {
           </div>
         </div>
         <div className="image">
-          <img src="cacao.svg" alt="" />      
+          <img src={imagenHacienda} alt="Hacienda Victoria" />
+          <span>Hacienda Victoria</span>
         </div>
       </div>
     </div>
@@ -36,3 +38,4 @@ const Single = () => {
 };
 
 export default Single;
+
