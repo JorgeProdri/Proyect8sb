@@ -5,7 +5,7 @@ const Navbar = () => {
     <div className="navbar">
       <div className="logo">
         <img src="logoC.svg" alt="" />
-        <span>Cacao Web</span>
+        <span>Hacienda Victoria</span>
       </div>
       <div className="icons">
         <div className="user">
