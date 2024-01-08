@@ -1,8 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableH from "../../components/datatableH/DataTableH";
-import "./lotes.scss"; // Asegúrate de tener el archivo de estilos adecuado
+import "./lotes.scss"; 
 import { useState } from "react";
-import AddLotes from "../../components/modalLotes/AddLotes"; // Asegúrate de tener el componente modal adecuado
+import AddLotes from "../../components/modalLotes/AddLotes"; 
 import { userRows } from "../../data";
 
 const columns: GridColDef[] = [
@@ -10,21 +10,27 @@ const columns: GridColDef[] = [
   {
     field: "codigo",
     type: "int",
-    width: 150,
+    width: 100,
   },
   {
-    field: "nombre_del_lote",
+    field: "nombre del lote",
     type: "string",
     headerName: "Nombre",
+    width: 120,
+  },
+  {
+    field: "Dimension x",
+    type: "number",
+    headerName: "Dimension x",
     width: 150,
   },
   {
-    field: "area",
+    field: "Dimension y",
     type: "number",
-    headerName: "Área",
+    headerName: "Dimension y",
     width: 150,
   },
-  // Agrega aquí más columnas según tus necesidades
+ 
 ];
 
 const Lotes = () => {
