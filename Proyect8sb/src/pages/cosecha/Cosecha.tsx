@@ -14,21 +14,27 @@ const columns: GridColDef[] = [
     width: 150,
   },
   {
-    field: "nombre de la cosecha",
-    type: "string",
-    headerName: "Nombre",
-    width: 150,
-  },
-  {
-    field: "fecha_inicio",
+    field: "fecha",
     type: "date",
-    headerName: "Fecha de Inicio",
+    headerName: "Fecha de cosecha",
     width: 200,
   },
   {
-    field: "fecha_fin",
+    field: "Produccion",
     type: "date",
-    headerName: "Fecha de Fin",
+    headerName: "Produccion Cosecha",
+    width: 200,
+  },
+  {
+    field: "Estado",
+    type: "date",
+    headerName: "Estado de la Cosecha",
+    width: 200,
+  },
+  {
+    field: "cod lote",
+    type: "date",
+    headerName: "Codigo del lote",
     width: 200,
   },
 ];
