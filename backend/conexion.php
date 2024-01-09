@@ -20,3 +20,4 @@ try {
     echo json_encode(array("error" => true, "message" => "Error en la conexión: " . $e->getMessage()));
     exit;
 }
+?>
