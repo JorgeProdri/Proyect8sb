@@ -11,7 +11,8 @@ import Finca from "./pages/finca/Finca";
 import Cosecha from "./pages/cosecha/Cosecha";
 import Lotes from "./pages/lote/Lotes";
 import Product from "./pages/product/Product";
-import Th from  "./pages/TH/Th";
+import Th from  "./pages/TH/Th"; //pagina para temperatura-humedad
+import Pr  from "./pages/PrR/Pr"; //pagina para PRECIPITACION
 import {
   QueryClient,
   QueryClientProvider,
@@ -72,6 +73,10 @@ function App() {
         {
           path: "/Th",
           element: <Th />,
+        },
+        {
+          path: "/Pr",
+          element: <Pr />,
         },
         {
           path: "/products/:id",

@@ -56,7 +56,13 @@ export const menu = [
         title: "temperatura-Humedad",
         url: "/Th",
         icon: "order.svg",
-      }
+      },
+      {
+        id: 2,
+        title: "Precipitación",
+        url: "/Pr",
+        icon: "order.svg",
+      },
     ],
   },
 ];
