@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-12-2023 a las 17:09:52
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.0.25
+-- Tiempo de generación: 09-01-2024 a las 01:17:27
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,14 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `analisis`
+-- Estructura de tabla para la tabla `clima`
 --
 
-CREATE TABLE `analisis` (
-  `cod_analisis` int(11) NOT NULL,
-  `fecha_analisis` datetime NOT NULL,
-  `obsev_analisis` varchar(150) NOT NULL,
-  `cod_lote` int(11) NOT NULL
+CREATE TABLE `clima` (
+  `id` int(11) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `temp` float NOT NULL,
+  `hum` float NOT NULL,
+  `rad_solar` float NOT NULL,
+  `lluvia` int(11) NOT NULL,
+  `estado` varchar(20) NOT NULL,
+  `id_device` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -46,6 +50,20 @@ CREATE TABLE `cosecha` (
   `produc_cosecha` float NOT NULL,
   `estado_cosecha` varchar(10) NOT NULL,
   `cod_lote` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `device`
+--
+
+CREATE TABLE `device` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `descrip` varchar(200) NOT NULL,
+  `estado` varchar(20) NOT NULL,
+  `id_lote` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -93,61 +111,6 @@ CREATE TABLE `notificacion` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `phprecipitacion`
---
-
-CREATE TABLE `phprecipitacion` (
-  `cod_phprecipitacion` int(11) NOT NULL,
-  `sensor_id` varchar(20) NOT NULL,
-  `ph` float NOT NULL,
-  `precipitacion` float NOT NULL,
-  `cod_lote` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `radiacion`
---
-
-CREATE TABLE `radiacion` (
-  `cod_radiacion` int(11) NOT NULL,
-  `sensor_id` varchar(20) NOT NULL,
-  `radiacion` float NOT NULL,
-  `cod_lote` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `reporte`
---
-
-CREATE TABLE `reporte` (
-  `cod_reporte` int(11) NOT NULL,
-  `fecha_reporte` datetime NOT NULL,
-  `obser_reporte` varchar(150) NOT NULL,
-  `detalle_reporte` varchar(100) NOT NULL,
-  `cod_lote` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `temphum`
---
-
-CREATE TABLE `temphum` (
-  `codigo_T_H` int(11) NOT NULL,
-  `sensor_id` varchar(20) NOT NULL,
-  `temperatura` float NOT NULL,
-  `humedad` float NOT NULL,
-  `cod_lote` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -167,11 +130,10 @@ CREATE TABLE `usuarios` (
 --
 
 --
--- Indices de la tabla `analisis`
+-- Indices de la tabla `clima`
 --
-ALTER TABLE `analisis`
-  ADD PRIMARY KEY (`cod_analisis`),
-  ADD UNIQUE KEY `cod_lote` (`cod_lote`);
+ALTER TABLE `clima`
+  ADD KEY `id_device` (`id_device`);
 
 --
 -- Indices de la tabla `cosecha`
@@ -179,6 +141,13 @@ ALTER TABLE `analisis`
 ALTER TABLE `cosecha`
   ADD PRIMARY KEY (`cod_cosecha`),
   ADD UNIQUE KEY `cod_lote` (`cod_lote`);
+
+--
+-- Indices de la tabla `device`
+--
+ALTER TABLE `device`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_lote` (`id_lote`);
 
 --
 -- Indices de la tabla `hacienda`
@@ -201,34 +170,6 @@ ALTER TABLE `notificacion`
   ADD UNIQUE KEY `cod_lote` (`cod_lote`);
 
 --
--- Indices de la tabla `phprecipitacion`
---
-ALTER TABLE `phprecipitacion`
-  ADD PRIMARY KEY (`cod_phprecipitacion`),
-  ADD UNIQUE KEY `cod_lote` (`cod_lote`);
-
---
--- Indices de la tabla `radiacion`
---
-ALTER TABLE `radiacion`
-  ADD PRIMARY KEY (`cod_radiacion`),
-  ADD UNIQUE KEY `cod_lote` (`cod_lote`);
-
---
--- Indices de la tabla `reporte`
---
-ALTER TABLE `reporte`
-  ADD PRIMARY KEY (`cod_reporte`),
-  ADD UNIQUE KEY `cod_lote` (`cod_lote`);
-
---
--- Indices de la tabla `temphum`
---
-ALTER TABLE `temphum`
-  ADD PRIMARY KEY (`codigo_T_H`),
-  ADD UNIQUE KEY `cod_lote` (`cod_lote`);
-
---
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -240,10 +181,10 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `analisis`
+-- AUTO_INCREMENT de la tabla `device`
 --
-ALTER TABLE `analisis`
-  MODIFY `cod_analisis` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `device`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `hacienda`
@@ -264,44 +205,26 @@ ALTER TABLE `notificacion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `phprecipitacion`
---
-ALTER TABLE `phprecipitacion`
-  MODIFY `cod_phprecipitacion` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `radiacion`
---
-ALTER TABLE `radiacion`
-  MODIFY `cod_radiacion` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `reporte`
---
-ALTER TABLE `reporte`
-  MODIFY `cod_reporte` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `temphum`
---
-ALTER TABLE `temphum`
-  MODIFY `codigo_T_H` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `analisis`
+-- Filtros para la tabla `clima`
 --
-ALTER TABLE `analisis`
-  ADD CONSTRAINT `analisis_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
+ALTER TABLE `clima`
+  ADD CONSTRAINT `clima_ibfk_1` FOREIGN KEY (`id_device`) REFERENCES `device` (`id`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `cosecha`
 --
 ALTER TABLE `cosecha`
   ADD CONSTRAINT `cosecha_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
+
+--
+-- Filtros para la tabla `device`
+--
+ALTER TABLE `device`
+  ADD CONSTRAINT `device_ibfk_1` FOREIGN KEY (`id_lote`) REFERENCES `lote` (`cod_lote`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `lote`
@@ -314,30 +237,6 @@ ALTER TABLE `lote`
 --
 ALTER TABLE `notificacion`
   ADD CONSTRAINT `notificacion_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
-
---
--- Filtros para la tabla `phprecipitacion`
---
-ALTER TABLE `phprecipitacion`
-  ADD CONSTRAINT `phprecipitacion_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
-
---
--- Filtros para la tabla `radiacion`
---
-ALTER TABLE `radiacion`
-  ADD CONSTRAINT `radiacion_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
-
---
--- Filtros para la tabla `reporte`
---
-ALTER TABLE `reporte`
-  ADD CONSTRAINT `reporte_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
-
---
--- Filtros para la tabla `temphum`
---
-ALTER TABLE `temphum`
-  ADD CONSTRAINT `temphum_ibfk_1` FOREIGN KEY (`cod_lote`) REFERENCES `lote` (`cod_lote`);
 
 --
 -- Filtros para la tabla `usuarios`
