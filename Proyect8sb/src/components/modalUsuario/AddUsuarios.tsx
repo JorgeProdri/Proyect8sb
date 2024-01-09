@@ -44,7 +44,15 @@ const AddUsuarios = (props: Props) => {
             .map(({ field, type, headerName }) => (
               <div className={`item ${field === "codigo" ? "hidden" : ""}`} key={field}>
                 <label>{headerName}</label>
-                {field === "Estado" ? (
+                {field === "Contraseña" ? (
+                  <input
+                    type="password"
+                    placeholder={field}
+                    name={field}
+                    onChange={handleChange}
+                    required
+                  />
+                ) : field === "Estado" ? (
                   <select
                     name={field}
                     onChange={handleChange}

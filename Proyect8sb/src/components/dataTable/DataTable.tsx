@@ -10,12 +10,12 @@ type Props = {
   columns: GridColDef[];
   rows: object[];
   slug: string;
+  onDelete: (userId: number) => void; // Agrega esta línea para incluir la propiedad onDelete
 };
 
 const DataTable = (props: Props) => {
   const handleDelete = (id: number) => {
-    // Lógica para eliminar el usuario con el ID proporcionado
-    console.log(`Eliminar usuario con ID: ${id}`);
+    props.onDelete(id); // Llama a la función onDelete que se pasa como prop
   };
 
   const actionColumn: GridColDef = {
@@ -62,8 +62,6 @@ const DataTable = (props: Props) => {
         disableColumnFilter
         disableDensitySelector
         disableColumnSelector
-        // Añade la prop getRowId para generar identificadores únicos
-        getRowId={(row) => row.cod_usuario}
       />
     </div>
   );

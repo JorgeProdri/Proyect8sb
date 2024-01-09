@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
-
+import "./users.scss";
 import AddUsuarios from "../../components/modalUsuario/AddUsuarios";
 import axios from "axios";
 
-interface User {
+interface User { 
   cod_usuario: number;
   nomb_usuario: string;
   ape_usuario: string;
@@ -22,7 +22,14 @@ const Users = () => {
   useEffect(() => {
     // Hacer la solicitud a la API para obtener los usuarios
     axios.get("https://simulacion7sb.000webhostapp.com/8SB/user.php")
-      .then(response => setUsers(response.data))
+      .then(response => {
+        // Asigna un 'id' único basado en 'cod_usuario' a cada usuario
+        const usersWithIds = response.data.map((user: User, index: number) => ({
+          ...user,
+          id: index + 1, // Puedes ajustar esto según tu lógica de generación de 'id'
+        }));
+        setUsers(usersWithIds);
+      })
       .catch(error => console.error("Error al obtener usuarios:", error));
   }, []); // Se ejecutará solo una vez al montar el componente
 
@@ -49,7 +56,12 @@ const Users = () => {
       </div>
 
       {/* Utiliza el estado 'users' obtenido de la API */}
-      <DataTable slug="users" columns={columns} rows={users} />
+      <DataTable
+        slug="users"
+        columns={columns}
+        rows={users}
+        onDelete={handleDelete} // Asegúrate de pasar la función onDelete si es necesario
+      />
 
       {open && <AddUsuarios slug="ususario" columns={columns} setOpen={setOpen} />}
     </div>
