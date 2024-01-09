@@ -15,7 +15,13 @@ interface Hacienda {
 }
 
 const AddUsuarios = (props: Props) => {
-  const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
+  const [nombUsuario, setNombUsuario] = useState("");
+  const [apeUsuario, setApeUsuario] = useState("");
+  const [userUsuario, setUserUsuario] = useState("");
+  const [passUsuario, setPassUsuario] = useState("");
+  const [telefonoUsuario, setTelefonoUsuario] = useState("");
+  const [estadoUsuario, setEstadoUsuario] = useState("");
+  const [codHacienda, setCodHacienda] = useState("");
   const [haciendas, setHaciendas] = useState<Hacienda[]>([]);
 
   useEffect(() => {
@@ -26,21 +32,60 @@ const AddUsuarios = (props: Props) => {
   }, []); // Se ejecutará solo una vez al montar el componente
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
+    const value = e.target.value;
+    switch (e.target.name) {
+      case "nomb_usuario":
+        setNombUsuario(value);
+        break;
+      case "ape_usuario":
+        setApeUsuario(value);
+        break;
+      case "user_usuario":
+        setUserUsuario(value);
+        break;
+      case "pass_usuario":
+        setPassUsuario(value);
+        break;
+      case "telefono_usuario":
+        setTelefonoUsuario(value);
+        break;
+      case "estado_usuario":
+        setEstadoUsuario(value);
+        break;
+      case "cod_hacienda":
+        setCodHacienda(value);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const isEmptyField = Object.values(formValues).some((value) => !value.trim());
+    const isEmptyField = [nombUsuario, apeUsuario, userUsuario, passUsuario, telefonoUsuario, estadoUsuario, codHacienda].some(value => !value.trim());
 
     if (isEmptyField) {
       alert("Por favor, completa todos los campos antes de enviar.");
     } else {
-      props.setOpen(false);
+      // Mostrar por consola todos los datos antes de enviar
+      console.log("Datos a enviar:", { nombUsuario, apeUsuario, userUsuario, passUsuario, telefonoUsuario, estadoUsuario, codHacienda });
+
+      // Realizar la solicitud POST para guardar los datos en la API
+      axios.post("https://simulacion7sb.000webhostapp.com/8SB/user.php", {
+        nomb_usuario: nombUsuario,
+        ape_usuario: apeUsuario,
+        user_usuario: userUsuario,
+        pass_usuario: passUsuario,
+        telefono_usuario: telefonoUsuario,
+        estado_usuario: estadoUsuario,
+        cod_hacienda: codHacienda,
+      })
+        .then(response => {
+          console.log("Datos guardados exitosamente:", response.data);
+          props.setOpen(false);
+        })
+        .catch(error => console.error("Error al guardar datos:", error));
     }
   };
 
@@ -51,25 +96,14 @@ const AddUsuarios = (props: Props) => {
           X
         </span>
         <h1>Añadir nuevo {props.slug}</h1>
-
         <form onSubmit={handleSubmit}>
-          <div className="item" key="cod_usuario">
-            <label>Código de Usuario</label>
-            <input
-              type="text"
-              placeholder="Código de Usuario"
-              name="cod_usuario"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
           <div className="item" key="nomb_usuario">
             <label>Nombre</label>
             <input
               type="text"
               placeholder="Nombre"
               name="nomb_usuario"
+              value={nombUsuario}
               onChange={handleChange}
               required
             />
@@ -81,6 +115,7 @@ const AddUsuarios = (props: Props) => {
               type="text"
               placeholder="Apellido"
               name="ape_usuario"
+              value={apeUsuario}
               onChange={handleChange}
               required
             />
@@ -92,6 +127,7 @@ const AddUsuarios = (props: Props) => {
               type="text"
               placeholder="Usuario"
               name="user_usuario"
+              value={userUsuario}
               onChange={handleChange}
               required
             />
@@ -103,6 +139,7 @@ const AddUsuarios = (props: Props) => {
               type="password"
               placeholder="Contraseña"
               name="pass_usuario"
+              value={passUsuario}
               onChange={handleChange}
               required
             />
@@ -111,9 +148,10 @@ const AddUsuarios = (props: Props) => {
           <div className="item" key="telefono_usuario">
             <label>Teléfono</label>
             <input
-              type="text"
+              type="int"
               placeholder="Teléfono"
               name="telefono_usuario"
+              value={telefonoUsuario}
               onChange={handleChange}
               required
             />
@@ -123,8 +161,8 @@ const AddUsuarios = (props: Props) => {
             <label>Estado</label>
             <select
               name="estado_usuario"
+              value={estadoUsuario}
               onChange={handleChange}
-              value={formValues["estado_usuario"] || ""}
               required
             >
               <option value="" disabled>
@@ -139,8 +177,8 @@ const AddUsuarios = (props: Props) => {
             <label>Código de Hacienda</label>
             <select
               name="cod_hacienda"
+              value={codHacienda}
               onChange={handleChange}
-              value={formValues["cod_hacienda"] || ""}
               required
             >
               <option value="" disabled>
