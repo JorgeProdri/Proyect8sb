@@ -15,15 +15,15 @@ switch ($method) {
 
             switch ($action) {
                 case 'create':
-                    createLote($data);
+                    createNotificacion($data);
                     break;
 
                 case 'update':
-                    updateLote($data);
+                    updateNotificacion($data);
                     break;
 
                 case 'delete':
-                    deleteLote($data);
+                    deleteNotificacion($data);
                     break;
 
                 default:
@@ -37,7 +37,7 @@ switch ($method) {
         break;
 
     case 'GET': // Leer
-        getLotes();
+        getNotificaciones();
         break;
 
     default:
@@ -47,77 +47,77 @@ switch ($method) {
 
 $mysqli->close();
 
-// Funciones CRUD para la tabla lote
+// Funciones CRUD para la tabla notificacion
 
-function createLote($data) {
+function createNotificacion($data) {
     global $mysqli;
 
     // Validar y procesar los datos de $data
     // ...
 
     // Ejemplo de inserción en la tabla
-    $query = "INSERT INTO lote (nomb_lote, dimenx_lote, dimeny_lote, estado_lote, cod_hacienda) VALUES (?, ?, ?, ?, ?)";
+    $query = "INSERT INTO notificacion (IdSensor, fecha, descrip, cod_lote) VALUES (?, ?, ?, ?)";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("siisi", $data['nomb_lote'], $data['dimenx_lote'], $data['dimeny_lote'], $data['estado_lote'], $data['cod_hacienda']);
+    $stmt->bind_param("sssi", $data['IdSensor'], $data['fecha'], $data['descrip'], $data['cod_lote']);
     
     if ($stmt->execute()) {
-        echo json_encode(array("success" => true, "message" => "Lote creado correctamente"));
+        echo json_encode(array("success" => true, "message" => "Notificación creada correctamente"));
     } else {
-        echo json_encode(array("error" => true, "message" => "Error al crear lote: " . $stmt->error));
+        echo json_encode(array("error" => true, "message" => "Error al crear notificación: " . $stmt->error));
     }
 }
 
-function updateLote($data) {
+function updateNotificacion($data) {
     global $mysqli;
 
     // Validar y procesar los datos de $data
     // ...
 
     // Ejemplo de actualización en la tabla
-    $query = "UPDATE lote SET nomb_lote=?, dimenx_lote=?, dimeny_lote=?, estado_lote=?, cod_hacienda=? WHERE cod_lote=?";
+    $query = "UPDATE notificacion SET IdSensor=?, fecha=?, descrip=?, cod_lote=? WHERE id=?";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("siiisi", $data['nomb_lote'], $data['dimenx_lote'], $data['dimeny_lote'], $data['estado_lote'], $data['cod_hacienda'], $data['cod_lote']);
+    $stmt->bind_param("sssii", $data['IdSensor'], $data['fecha'], $data['descrip'], $data['cod_lote'], $data['id']);
     
     if ($stmt->execute()) {
-        echo json_encode(array("success" => true, "message" => "Lote actualizado correctamente"));
+        echo json_encode(array("success" => true, "message" => "Notificación actualizada correctamente"));
     } else {
-        echo json_encode(array("error" => true, "message" => "Error al actualizar lote: " . $stmt->error));
+        echo json_encode(array("error" => true, "message" => "Error al actualizar notificación: " . $stmt->error));
     }
 }
 
-function deleteLote($data) {
+function deleteNotificacion($data) {
     global $mysqli;
 
     // Validar y procesar los datos de $data
     // ...
 
     // Ejemplo de eliminación en la tabla
-    $query = "DELETE FROM lote WHERE cod_lote=?";
+    $query = "DELETE FROM notificacion WHERE id=?";
     $stmt = $mysqli->prepare($query);
-    $stmt->bind_param("i", $data['cod_lote']);
+    $stmt->bind_param("i", $data['id']);
     
     if ($stmt->execute()) {
-        echo json_encode(array("success" => true, "message" => "Lote eliminado correctamente"));
+        echo json_encode(array("success" => true, "message" => "Notificación eliminada correctamente"));
     } else {
-        echo json_encode(array("error" => true, "message" => "Error al eliminar lote: " . $stmt->error));
+        echo json_encode(array("error" => true, "message" => "Error al eliminar notificación: " . $stmt->error));
     }
 }
 
-function getLotes() {
+function getNotificaciones() {
     global $mysqli;
 
     // Ejemplo de consulta para obtener todos los datos de la tabla
-    $query = "SELECT * FROM lote";
+    $query = "SELECT * FROM notificacion";
     $result = $mysqli->query($query);
 
     if ($result) {
-        $lotesData = array();
+        $notificacionesData = array();
         while ($row = $result->fetch_assoc()) {
-            $lotesData[] = $row;
+            $notificacionesData[] = $row;
         }
-        echo json_encode($lotesData);
+        echo json_encode($notificacionesData);
     } else {
-        echo json_encode(array("error" => true, "message" => "Error al obtener datos de lotes: " . $mysqli->error));
+        echo json_encode(array("error" => true, "message" => "Error al obtener datos de notificaciones: " . $mysqli->error));
     }
 }
 ?>

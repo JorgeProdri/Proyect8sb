@@ -7,98 +7,37 @@ header("Content-Type: application/json; charset=UTF-8");
 $method = $_SERVER['REQUEST_METHOD'];
 
 switch ($method) {
-    case 'POST': // Crear
+    case 'POST': // Crear, Actualizar o Eliminar
         $data = json_decode(file_get_contents("php://input"), true);
-        if (isset($data['nombre']) && isset($data['direccion']) && isset($data['contacto'])) {
-            $nombre = $mysqli->real_escape_string($data['nombre']);
-            $direccion = $mysqli->real_escape_string($data['direccion']);
-            $contacto = intval($data['contacto']);
 
-            $query = "INSERT INTO hacienda (nomb_hacienda, direccion_hacienda, contac_hacienda) VALUES ('$nombre', '$direccion', $contacto)";
-            $result = $mysqli->query($query);
+        if (isset($data['action'])) {
+            $action = $data['action'];
 
-            if ($result) {
-                echo json_encode(array("success" => true, "message" => "Hacienda creada correctamente"));
-            } else {
-                echo json_encode(array("error" => true, "message" => "Error al crear la hacienda: " . $mysqli->error));
+            switch ($action) {
+                case 'create':
+                    createHacienda($data);
+                    break;
+
+                case 'update':
+                    updateHacienda($data);
+                    break;
+
+                case 'delete':
+                    deleteHacienda($data);
+                    break;
+
+                default:
+                    echo json_encode(array("error" => true, "message" => "Acción no válida"));
+                    break;
             }
         } else {
-            echo json_encode(array("error" => true, "message" => "Datos incompletos para crear la hacienda"));
+            echo json_encode(array("error" => true, "message" => "Acción no especificada"));
         }
+
         break;
 
     case 'GET': // Leer
-        $query = "SELECT * FROM hacienda";
-        $result = $mysqli->query($query);
-
-        if ($result) {
-            $haciendas = array();
-            while ($row = $result->fetch_assoc()) {
-                $hacienda = array(
-                    "cod_hacienda" => $row['cod_hacienda'],
-                    "nomb_hacienda" => $row['nomb_hacienda'],
-                    "direccion_hacienda" => $row['direccion_hacienda'],
-                    "contac_hacienda" => $row['contac_hacienda']
-                );
-                $haciendas[] = $hacienda;
-            }
-            echo json_encode($haciendas);
-        } else {
-            echo json_encode(array("error" => true, "message" => "Error al obtener las haciendas: " . $mysqli->error));
-        }
-        break;
-
-    case 'PUT': // Actualizar (activar)
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (isset($data['cod_hacienda'])) {
-            $cod_hacienda = intval($data['cod_hacienda']);
-            $query = "UPDATE hacienda SET estado_hacienda=1 WHERE cod_hacienda=$cod_hacienda";
-            $result = $mysqli->query($query);
-            if ($result) {
-                echo json_encode(array("success" => true, "message" => "Hacienda activada correctamente"));
-            } else {
-                echo json_encode(array("error" => true, "message" => "Error al activar la hacienda: " . $mysqli->error));
-            }
-        } else {
-            echo json_encode(array("error" => true, "message" => "Datos incompletos para activar la hacienda"));
-        }
-        break;
-
-    case 'PATCH': // Actualizar
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (isset($data['cod_hacienda']) && isset($data['nomb_hacienda']) && isset($data['direccion_hacienda']) && isset($data['contac_hacienda'])) {
-            $cod_hacienda = intval($data['cod_hacienda']);
-            $nomb_hacienda = $mysqli->real_escape_string($data['nomb_hacienda']);
-            $direccion_hacienda = $mysqli->real_escape_string($data['direccion_hacienda']);
-            $contac_hacienda = intval($data['contac_hacienda']);
-
-            $query = "UPDATE hacienda SET nomb_hacienda='$nomb_hacienda', direccion_hacienda='$direccion_hacienda', contac_hacienda=$contac_hacienda WHERE cod_hacienda=$cod_hacienda";
-            $result = $mysqli->query($query);
-
-            if ($result) {
-                echo json_encode(array("success" => true, "message" => "Hacienda actualizada correctamente"));
-            } else {
-                echo json_encode(array("error" => true, "message" => "Error al actualizar la hacienda: " . $mysqli->error));
-            }
-        } else {
-            echo json_encode(array("error" => true, "message" => "Datos incompletos para actualizar la hacienda"));
-        }
-        break;
-
-    case 'DELETE': // Eliminar
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (isset($data['cod_hacienda'])) {
-            $cod_hacienda = intval($data['cod_hacienda']);
-            $query = "DELETE FROM hacienda WHERE cod_hacienda=$cod_hacienda";
-            $result = $mysqli->query($query);
-            if ($result) {
-                echo json_encode(array("success" => true, "message" => "Hacienda eliminada correctamente"));
-            } else {
-                echo json_encode(array("error" => true, "message" => "Error al eliminar la hacienda: " . $mysqli->error));
-            }
-        } else {
-            echo json_encode(array("error" => true, "message" => "Datos incompletos para eliminar la hacienda"));
-        }
+        getHaciendas();
         break;
 
     default:
@@ -107,4 +46,78 @@ switch ($method) {
 }
 
 $mysqli->close();
+
+// Funciones CRUD para la tabla hacienda
+
+function createHacienda($data) {
+    global $mysqli;
+
+    // Validar y procesar los datos de $data
+    // ...
+
+    // Ejemplo de inserción en la tabla
+    $query = "INSERT INTO hacienda (nomb_hacienda, direccion_hacienda, contac_hacienda) VALUES (?, ?, ?)";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("ssi", $data['nomb_hacienda'], $data['direccion_hacienda'], $data['contac_hacienda']);
+    
+    if ($stmt->execute()) {
+        echo json_encode(array("success" => true, "message" => "Hacienda creada correctamente"));
+    } else {
+        echo json_encode(array("error" => true, "message" => "Error al crear hacienda: " . $stmt->error));
+    }
+}
+
+function updateHacienda($data) {
+    global $mysqli;
+
+    // Validar y procesar los datos de $data
+    // ...
+
+    // Ejemplo de actualización en la tabla
+    $query = "UPDATE hacienda SET nomb_hacienda=?, direccion_hacienda=?, contac_hacienda=? WHERE cod_hacienda=?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("ssi", $data['nomb_hacienda'], $data['direccion_hacienda'], $data['contac_hacienda'], $data['cod_hacienda']);
+    
+    if ($stmt->execute()) {
+        echo json_encode(array("success" => true, "message" => "Hacienda actualizada correctamente"));
+    } else {
+        echo json_encode(array("error" => true, "message" => "Error al actualizar hacienda: " . $stmt->error));
+    }
+}
+
+function deleteHacienda($data) {
+    global $mysqli;
+
+    // Validar y procesar los datos de $data
+    // ...
+
+    // Ejemplo de eliminación en la tabla
+    $query = "DELETE FROM hacienda WHERE cod_hacienda=?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("i", $data['cod_hacienda']);
+    
+    if ($stmt->execute()) {
+        echo json_encode(array("success" => true, "message" => "Hacienda eliminada correctamente"));
+    } else {
+        echo json_encode(array("error" => true, "message" => "Error al eliminar hacienda: " . $stmt->error));
+    }
+}
+
+function getHaciendas() {
+    global $mysqli;
+
+    // Ejemplo de consulta para obtener todos los datos de la tabla
+    $query = "SELECT * FROM hacienda";
+    $result = $mysqli->query($query);
+
+    if ($result) {
+        $haciendasData = array();
+        while ($row = $result->fetch_assoc()) {
+            $haciendasData[] = $row;
+        }
+        echo json_encode($haciendasData);
+    } else {
+        echo json_encode(array("error" => true, "message" => "Error al obtener datos de haciendas: " . $mysqli->error));
+    }
+}
 ?>
