@@ -7,11 +7,10 @@ import Addfinca from "../../components/modalfinca/Addfinca";
 import { userRows } from "../../data";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
   {
     field: "codigo",
     type: "int",
-    //headerName: "Codigo",
+    headerName: "Codigo",
     width: 150,
   },
   {

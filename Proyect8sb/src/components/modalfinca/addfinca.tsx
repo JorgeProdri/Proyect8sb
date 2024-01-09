@@ -10,6 +10,8 @@ type Props = {
 
 const Addfinca = (props: Props) => {
   const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
@@ -24,32 +26,36 @@ const Addfinca = (props: Props) => {
     const isEmptyField = Object.values(formValues).some((value) => !value.trim());
 
     if (isEmptyField) {
-      alert("Por favor, completa todos los campos antes de enviar.");
+      setError("Por favor, completa todos los campos antes de enviar.");
     } else {
+      setLoading(true);
+
       try {
-        // Realizar la solicitud POST a la API
         const response = await fetch("https://simulacion7sb.000webhostapp.com/8SB/hacienda.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            action: "create",  // Ajusta esto según la lógica de tu API
+            action: "create",
             data: formValues,
           }),
         });
 
         if (response.ok) {
+          const responseData = await response.json();
           console.log("Hacienda creada correctamente");
+          console.log("Código de la nueva hacienda:", responseData.codigo);
+          // Puedes mostrar un mensaje de éxito al usuario si lo deseas
         } else {
-          console.error("Error al crear hacienda:", response.statusText);
+          const errorData = await response.json();
+          setError(`Error al crear hacienda: ${errorData.message}`);
         }
       } catch (error) {
-        console.error("Error en la solicitud:", error);
+        setError("Error en la solicitud. Por favor, intenta de nuevo más tarde.");
+      } finally {
+        setLoading(false);
       }
-
-      // Cerrar el modal después de la creación exitosa
-      props.setOpen(false);
     }
   };
 
@@ -65,9 +71,9 @@ const Addfinca = (props: Props) => {
         </div>
         <form onSubmit={handleSubmit}>
           {props.columns
-            .filter((item) => item.field !== "id" && item.field !== "img")
+            .filter((item) => item.field !== "id")
             .map(({ field, type, headerName }) => (
-              <div className={`item ${field === "codigo" ? "hidden" : ""}`} key={field}>
+              <div className="item" key={field}>
                 <label>{headerName}</label>
                 <input
                   type={type}
@@ -78,7 +84,10 @@ const Addfinca = (props: Props) => {
                 />
               </div>
             ))}
-          <button type="submit">Enviar</button>
+          {error && <div className="error-message">{error}</div>}
+          <button type="submit" disabled={loading}>
+            {loading ? "Enviando..." : "Enviar"}
+          </button>
         </form>
       </div>
     </div>
