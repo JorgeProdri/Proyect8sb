@@ -37,10 +37,10 @@ const AddUsuarios = (props: Props) => {
           X
         </span>
         <h1>Añadir nuevo {props.slug}</h1>
-    
+
         <form onSubmit={handleSubmit}>
           {props.columns
-            .filter((item) => item.field !== "id" && item.field !== "img")
+            .filter((item) => item.field !== "action") // Excluir la columna de acción
             .map(({ field, type, headerName }) => (
               <div className={`item ${field === "codigo" ? "hidden" : ""}`} key={field}>
                 <label>{headerName}</label>

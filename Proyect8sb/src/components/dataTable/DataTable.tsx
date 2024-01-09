@@ -6,7 +6,6 @@ import {
 import "./dataTable.scss";
 import { Link } from "react-router-dom";
 
-
 type Props = {
   columns: GridColDef[];
   rows: object[];
@@ -15,12 +14,13 @@ type Props = {
 
 const DataTable = (props: Props) => {
   const handleDelete = (id: number) => {
-
+    // Lógica para eliminar el usuario con el ID proporcionado
+    console.log(`Eliminar usuario con ID: ${id}`);
   };
 
   const actionColumn: GridColDef = {
     field: "action",
-    headerName: "Action",
+    headerName: "Acción",
     width: 200,
     renderCell: (params) => {
       return (
@@ -62,6 +62,8 @@ const DataTable = (props: Props) => {
         disableColumnFilter
         disableDensitySelector
         disableColumnSelector
+        // Añade la prop getRowId para generar identificadores únicos
+        getRowId={(row) => row.cod_usuario}
       />
     </div>
   );
