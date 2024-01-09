@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableH from "../../components/datatableH/DataTableH";
 import "./finca.scss";
-import Addfinca from "../../components/modalfinca/addfinca";
+import AddHaciendaModal from "../../components/modalhacienda/AddHaciendaModal";
 import axios from "axios";
 
 interface Hacienda {
@@ -59,7 +59,7 @@ const Finca = () => {
         <button onClick={() => setOpen(true)}>Añadir Hacienda</button>
       </div>
       <DataTableH slug="Hacienda" columns={columns} rows={haciendas} />
-      {open && <Addfinca slug="Hacienda" columns={columns} setOpen={setOpen} />}
+      {open && <AddHaciendaModal setOpen={setOpen} updateHaciendas={() => {}} />}
     </div>
   );
 };
