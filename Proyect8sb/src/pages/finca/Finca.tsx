@@ -15,13 +15,13 @@ const columns: GridColDef[] = [
   },
   {
     field: "nombre de la hacienda",
-    type: "string",
+    type: "varchar",
     headerName: "Nombre",
     width: 150,
   },
   {
     field: "direccion",
-    type: "string",
+    type: "varchar",
     headerName: "Direccion",
     width: 200,
   },

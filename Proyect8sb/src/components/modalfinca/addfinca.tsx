@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./addfinca.scss";
 import { GridColDef } from "@mui/x-data-grid";
+import axios from "axios";
+
+type FormValues = { [key: string]: string };
 
 type Props = {
   slug: string;
@@ -8,8 +11,8 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Addfinca = (props: Props) => {
-  const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
+const Addfinca: React.FC<Props> = (props) => {
+  const [formValues, setFormValues] = useState<FormValues>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,25 +34,18 @@ const Addfinca = (props: Props) => {
       setLoading(true);
 
       try {
-        const response = await fetch("https://simulacion7sb.000webhostapp.com/8SB/hacienda.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "create",
-            data: formValues,
-          }),
+        const response = await axios.post<{ codigo: string }>("https://simulacion7sb.000webhostapp.com/8SB/hacienda.php", {
+          action: "create",
+          data: formValues,
         });
 
-        if (response.ok) {
-          const responseData = await response.json();
+        if (response.status === 200) {
           console.log("Hacienda creada correctamente");
-          console.log("Código de la nueva hacienda:", responseData.codigo);
+          console.log("Código de la nueva hacienda:", response.data.codigo);
           // Puedes mostrar un mensaje de éxito al usuario si lo deseas
         } else {
-          const errorData = await response.json();
-          setError(`Error al crear hacienda: ${errorData.message}`);
+          // Ajusta el mensaje de error según la estructura real de las respuestas de tu API
+          setError("Error al crear hacienda: Hubo un problema en la solicitud.");
         }
       } catch (error) {
         setError("Error en la solicitud. Por favor, intenta de nuevo más tarde.");
@@ -76,7 +72,7 @@ const Addfinca = (props: Props) => {
               <div className="item" key={field}>
                 <label>{headerName}</label>
                 <input
-                  type={type}
+                  type={type as string}
                   placeholder={field}
                   name={field}
                   onChange={handleChange}
