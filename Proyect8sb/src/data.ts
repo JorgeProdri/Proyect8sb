@@ -47,6 +47,18 @@ export const menu = [
       },
     ],
   },
+  {
+    id: 3,
+    title: "Sistema de temperatura",
+    listItems: [
+      {
+        id: 1,
+        title: "temperatura-Humedad",
+        url: "/Th",
+        icon: "order.svg",
+      }
+    ],
+  },
 ];
 
 export const chartBoxUser = {

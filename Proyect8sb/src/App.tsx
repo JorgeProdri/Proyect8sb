@@ -11,6 +11,7 @@ import Finca from "./pages/finca/Finca";
 import Cosecha from "./pages/cosecha/Cosecha";
 import Lotes from "./pages/lote/Lotes";
 import Product from "./pages/product/Product";
+import Th from  "./pages/TH/Th";
 import {
   QueryClient,
   QueryClientProvider,
@@ -67,6 +68,10 @@ function App() {
         {
           path: "/users/:id",
           element: <User />,
+        },
+        {
+          path: "/Th",
+          element: <Th />,
         },
         {
           path: "/products/:id",
