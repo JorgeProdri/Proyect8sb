@@ -31,18 +31,22 @@ const AddHaciendaModal: React.FC<Props> = ({ setOpen, updateHaciendas }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post(
         "http://simulacion7sb.000webhostapp.com/8SB/hacienda.php",
-        formValues,
+        {
+          nomb_hacienda: formValues.nomb_hacienda,
+          direccion_hacienda: formValues.direccion_hacienda,
+          contac_hacienda: formValues.contac_hacienda
+        },
         {
           httpAgent: {
             protocol: 'http:',
           },
         }
       );
-  
+
       console.log("Datos guardados exitosamente:", response.data);
       updateHaciendas();
       setOpen(false);
@@ -58,8 +62,8 @@ const AddHaciendaModal: React.FC<Props> = ({ setOpen, updateHaciendas }) => {
       }
     }
   };
-  
-  
+
+
   return (
     <div className="add-hacienda-modal">
       <div className="modal">
