@@ -13,7 +13,7 @@ export const menu = [
         id: 2,
         title: "Hacienda Victoria",
         url: "/users/1",
-        icon: "home.svg",
+        icon: "post.svg",
       },
     ],
   },

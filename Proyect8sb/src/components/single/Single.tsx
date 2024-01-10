@@ -1,6 +1,6 @@
 // Single.tsx
 import "./single.scss";
-import imagenHacienda from './cacao.jpg';
+import imagenHacienda from './HaciendaVictoria.jpg';
 
 const Single = () => {
   return (
@@ -15,12 +15,12 @@ const Single = () => {
             <div>
               <strong>Correo electrónico:</strong> haciendavictoriaecuador@gmail.com
             </div>
-            <div>
-              <strong>Número Telefónico:</strong> Disponible en WhatsApp: +593 993273637
-            </div>
+         
           </div>
           <div className="activities">
-            <h2>Acerca de Nosotros</h2>
+            <div className="titulo2">
+              <h2>Acerca de Nosotros</h2>
+            </div>       
             <p>
               Hacienda Victoria es una finca de una sola propiedad establecida en 2011 y ubicada en Cerecita, Guayas,
               cerca de la costa del Pacífico de Ecuador. Estamos escondidos entre las suaves y exuberantes colinas de la

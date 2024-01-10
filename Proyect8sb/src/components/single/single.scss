@@ -12,10 +12,12 @@
 
       .hacienda-info {
         h2 {
+          
           margin-bottom: 20px;
         }
 
         div {
+          font-size: 19px;
           margin-bottom: 10px;
 
           strong {
@@ -25,11 +27,19 @@
       }
 
       .activities {
-        h2 {
-          margin-bottom: 20px;
-        }
+        justify-content: center;
+        .titulo2{
+          color: #B19470;
+          font-size: 23px;
+          font-weight: bold;
+          h2 {
+            margin-bottom: 20px;
+          }
 
+        }
+    
         p {
+          font-size: 16px;
           margin-bottom: 20px;
         }
       }
@@ -37,13 +47,15 @@
 
     .image {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 40px;
 
       img {
-        width: 100%;
-        max-width: 600px; // Ajusta el ancho máximo según sea necesario
-        height: auto; // Mantiene la proporción de aspecto
-        border-radius: 10px;
+        width: 500px;
+        height: 300px;
+        //width: 100%;
+        //max-width: 600px; // Ajusta el ancho máximo según sea necesario
+        //height: auto; // Mantiene la proporción de aspecto
+        border-radius: 15px;
       }
 
       span {

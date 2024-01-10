@@ -5,7 +5,7 @@
   padding: 20px; /* Espaciado para pantallas más grandes */
   background-color: #557C55;
   height: 92px;
-
+  border-bottom: 5px solid black;
   // Definir el punto de quiebre para pantallas pequeñas
   $screen-sm: 600px;
 
