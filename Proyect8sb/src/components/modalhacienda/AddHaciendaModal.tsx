@@ -3,7 +3,6 @@ import axios from "axios";
 import "./addhacienda.scss";
 
 interface Hacienda {
-  cod_hacienda: number;
   nomb_hacienda: string;
   direccion_hacienda: string;
   contac_hacienda: string;
@@ -16,7 +15,6 @@ interface Props {
 
 const AddHaciendaModal: React.FC<Props> = ({ setOpen, updateHaciendas }) => {
   const [formValues, setFormValues] = useState<Hacienda>({
-    cod_hacienda: 0,
     nomb_hacienda: "",
     direccion_hacienda: "",
     contac_hacienda: "",
@@ -31,25 +29,37 @@ const AddHaciendaModal: React.FC<Props> = ({ setOpen, updateHaciendas }) => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Realizar la solicitud POST para guardar los datos en la API
-    axios
-      .post<Hacienda>(
-        "https://simulacion7sb.000webhostapp.com/8SB/hacienda.php",
-        formValues
-      )
-      .then((response) => {
-        console.log("Datos guardados exitosamente:", response.data);
-        updateHaciendas(); // Actualizar la lista de haciendas después de agregar una nueva
-        setOpen(false);
-      })
-      .catch((error) =>
-        console.error("Error al guardar datos de la hacienda:", error)
+  
+    try {
+      const response = await axios.post(
+        "http://simulacion7sb.000webhostapp.com/8SB/hacienda.php",
+        formValues,
+        {
+          httpAgent: {
+            protocol: 'http:',
+          },
+        }
       );
+  
+      console.log("Datos guardados exitosamente:", response.data);
+      updateHaciendas();
+      setOpen(false);
+    } catch (error: any) {
+      console.error("Error al guardar datos de la hacienda:", error);
+      if (error.response) {
+        console.error("Respuesta del servidor:", error.response.data);
+        console.error("Código de estado:", error.response.status);
+      } else if (error.request) {
+        console.error("No se recibió respuesta del servidor");
+      } else {
+        console.error("Error durante la solicitud:", error.message);
+      }
+    }
   };
-
+  
+  
   return (
     <div className="add-hacienda-modal">
       <div className="modal">
