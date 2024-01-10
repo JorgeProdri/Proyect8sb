@@ -34,35 +34,22 @@ const AddHaciendaModal: React.FC<Props> = ({ setOpen, updateHaciendas }) => {
 
     try {
       const response = await axios.post(
-        "http://simulacion7sb.000webhostapp.com/8SB/hacienda.php",
+        "https://simulacion7sb.000webhostapp.com/8SB/hacienda.php",
         {
+          action: 'create',
           nomb_hacienda: formValues.nomb_hacienda,
           direccion_hacienda: formValues.direccion_hacienda,
-          contac_hacienda: formValues.contac_hacienda
-        },
-        {
-          httpAgent: {
-            protocol: 'http:',
-          },
+          contac_hacienda: formValues.contac_hacienda,
         }
       );
 
       console.log("Datos guardados exitosamente:", response.data);
       updateHaciendas();
       setOpen(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error al guardar datos de la hacienda:", error);
-      if (error.response) {
-        console.error("Respuesta del servidor:", error.response.data);
-        console.error("Código de estado:", error.response.status);
-      } else if (error.request) {
-        console.error("No se recibió respuesta del servidor");
-      } else {
-        console.error("Error durante la solicitud:", error.message);
-      }
     }
   };
-
 
   return (
     <div className="add-hacienda-modal">
