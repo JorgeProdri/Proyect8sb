@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableH from "../../components/datatableH/DataTableH";
 import "./finca.scss";
@@ -54,7 +54,10 @@ const Finca = () => {
   const handleAddHacienda = (data: { nomb_hacienda: string, direccion_hacienda: string, contac_hacienda: number }) => {
     console.log("Datos recibidos en handleAddHacienda:", data);
 
-    axios.post("http://104.248.120.74/8sb/api/Hacienda.php", data)
+    // Añadir el campo 'action' a los datos
+    const dataWithAction = { ...data, action: 'create' };
+
+    axios.post("http://104.248.120.74/8sb/api/Hacienda.php", dataWithAction)
       .then(response => {
         console.log("Respuesta de la API:", response.data);
         axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
