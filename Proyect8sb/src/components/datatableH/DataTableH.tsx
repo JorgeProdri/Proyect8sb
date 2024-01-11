@@ -1,10 +1,11 @@
+import React from "react";
 import {
   DataGrid,
   GridColDef,
   GridToolbar,
 } from "@mui/x-data-grid";
-import "./dataTableh.scss";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 type Props = {
   columns: GridColDef[];
@@ -12,10 +13,21 @@ type Props = {
   slug: string;
 };
 
-const DataTableH = (props: Props) => {
-  // Elimina el parámetro id si no lo estás utilizando
-  const handleDelete = () => {
-    // Implementa la lógica de eliminación aquí si es necesario
+const DataTableH: React.FC<Props> = (props) => {
+  const { columns, rows, slug } = props;
+
+  const handleDelete = (id: number) => {
+    // Realiza la lógica de eliminación aquí
+    axios.delete(`http://104.248.120.74/8sb/api/Hacienda.php?id=${id}&action=delete`)
+      .then(() => {
+        // Lógica adicional después de eliminar, si es necesario
+        console.log("Hacienda eliminada correctamente");
+        // Actualiza la lista de haciendas, puedes hacer otra solicitud GET o actualizar el estado directamente
+      })
+      .catch(error => {
+        console.error("Error al eliminar hacienda:", error);
+        // Maneja el error según tus necesidades
+      });
   };
 
   const actionColumn: GridColDef = {
@@ -25,11 +37,10 @@ const DataTableH = (props: Props) => {
     renderCell: (params) => {
       return (
         <div className="action">
-          <Link to={`/${props.slug}/${params.row.id}`}>
+          <Link to={`/${slug}/${params.row.id}`}>
             <img src="/view.svg" alt="" />
           </Link>
-          <div className="delete" onClick={() => handleDelete()}>
-            {/* No necesitas pasar params.row.id aquí, ya que no estás utilizando id en handleDelete */}
+          <div className="delete" onClick={() => handleDelete(params.row.id)}>
             <img src="/delete.svg" alt="" />
           </div>
         </div>
@@ -40,9 +51,8 @@ const DataTableH = (props: Props) => {
   return (
     <div className="dataTable">
       <DataGrid
-        className="dataGrid"
-        rows={props.rows}
-        columns={[...props.columns, actionColumn]}
+        rows={rows}
+        columns={[...columns, actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {
