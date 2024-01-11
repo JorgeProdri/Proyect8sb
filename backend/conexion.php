@@ -3,9 +3,9 @@ date_default_timezone_set('America/Guayaquil');
 
 $host = "localhost";
 $port = "3306";
-$user = "id20759216_adm";
-$pass = "@Eja987654321";
-$db = "id20759216_cacao";
+$user = "root";
+$pass = "EcoFlora2023";
+$db = "cacao8sb";
 $charset = "utf8mb4";
 
 try {
