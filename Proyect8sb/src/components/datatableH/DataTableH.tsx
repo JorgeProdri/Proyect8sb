@@ -6,7 +6,6 @@ import {
 import "./dataTableh.scss";
 import { Link } from "react-router-dom";
 
-
 type Props = {
   columns: GridColDef[];
   rows: object[];
@@ -14,8 +13,9 @@ type Props = {
 };
 
 const DataTableH = (props: Props) => {
-  const handleDelete = (id: number) => {
-
+  // Elimina el parámetro id si no lo estás utilizando
+  const handleDelete = () => {
+    // Implementa la lógica de eliminación aquí si es necesario
   };
 
   const actionColumn: GridColDef = {
@@ -28,7 +28,8 @@ const DataTableH = (props: Props) => {
           <Link to={`/${props.slug}/${params.row.id}`}>
             <img src="/view.svg" alt="" />
           </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
+          <div className="delete" onClick={() => handleDelete()}>
+            {/* No necesitas pasar params.row.id aquí, ya que no estás utilizando id en handleDelete */}
             <img src="/delete.svg" alt="" />
           </div>
         </div>

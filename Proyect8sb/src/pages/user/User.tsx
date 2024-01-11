@@ -1,16 +1,16 @@
-import Single from "../../components/single/Single"
-import { singleUser } from "../../data"
-import "./user.scss"
+import Single from "../../components/single/Single";
+
+import "./user.scss";
 
 const User = () => {
-
-
-  
   return (
     <div className="user">
-      <Single {...singleUser}/>
-    </div>
-  )
-}
+      {/* Asegúrate de que las propiedades de singleUser coincidan con las propiedades de Single */}
+      <Single
 
-export default User
+      />
+    </div>
+  );
+};
+
+export default User;
