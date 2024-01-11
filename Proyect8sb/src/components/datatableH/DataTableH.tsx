@@ -5,37 +5,50 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import "./dataTableh.scss";
 import axios from "axios";
+
+interface Hacienda {
+  cod_hacienda: number;
+  nomb_hacienda: string;
+  direccion_hacienda: string;
+  contac_hacienda: number;
+}
 
 type Props = {
   columns: GridColDef[];
-  rows: object[];
+  rows: Hacienda[];  // Corregido aquí
   slug: string;
+  setHaciendas: React.Dispatch<React.SetStateAction<Hacienda[]>>;  // Corregido aquí
 };
 
 const DataTableH: React.FC<Props> = (props) => {
-  const { columns, rows, slug } = props;
+  const { columns, rows, slug, setHaciendas } = props;
 
   const handleDelete = (id: number) => {
-    // Realiza la lógica de eliminación aquí
-    console.log(id);
     axios.delete(`http://104.248.120.74/8sb/api/Hacienda.php?id=${id}&action=delete`)
       .then(response => {
-        // Imprime la respuesta para depuración
         console.log("Respuesta de la API:", response.data);
-  
+
         // Lógica adicional después de eliminar, si es necesario
         console.log("Hacienda eliminada correctamente");
+
         // Actualiza la lista de haciendas, puedes hacer otra solicitud GET o actualizar el estado directamente
+        axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
+          .then(response => {
+            const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
+              ...hacienda,
+              id: hacienda.cod_hacienda,
+            }));
+            setHaciendas(haciendasWithId);
+          })
+          .catch(error => console.error("Error al obtener datos de hacienda:", error));
       })
       .catch(error => {
-        // Imprime el error para depuración
         console.error("Error al eliminar hacienda:", error);
         // Maneja el error según tus necesidades
       });
   };
-  
-  
 
   const actionColumn: GridColDef = {
     field: "action",

@@ -1,4 +1,4 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableH from "../../components/datatableH/DataTableH";
 import "./finca.scss";
@@ -79,13 +79,13 @@ const Finca = () => {
   };
 
   return (
-    <div className="users">
-      <div className="info">
-        <h1>Hacienda</h1>
-        <button onClick={() => setOpen(true)}>Añadir Hacienda</button>
-      </div>
-      <DataTableH slug="Hacienda" columns={columns} rows={haciendas} />
-      {open && <AddHaciendaModal open={open} handleClose={() => setOpen(false)} handleAddHacienda={handleAddHacienda} />}
+    <div className="finca">
+      <h1>Haciendas</h1>
+      <div className="buttom">
+        <button onClick={() => setOpen(true)}>Agregar Hacienda</button>
+      </div>   
+      <AddHaciendaModal open={open} handleClose={() => setOpen(false)} handleAddHacienda={handleAddHacienda} />
+      <DataTableH columns={columns} rows={haciendas} slug="hacienda" setHaciendas={setHaciendas} />
     </div>
   );
 };
