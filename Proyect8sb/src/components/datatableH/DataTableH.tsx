@@ -18,17 +18,24 @@ const DataTableH: React.FC<Props> = (props) => {
 
   const handleDelete = (id: number) => {
     // Realiza la lógica de eliminación aquí
+    console.log(id);
     axios.delete(`http://104.248.120.74/8sb/api/Hacienda.php?id=${id}&action=delete`)
-      .then(() => {
+      .then(response => {
+        // Imprime la respuesta para depuración
+        console.log("Respuesta de la API:", response.data);
+  
         // Lógica adicional después de eliminar, si es necesario
         console.log("Hacienda eliminada correctamente");
         // Actualiza la lista de haciendas, puedes hacer otra solicitud GET o actualizar el estado directamente
       })
       .catch(error => {
+        // Imprime el error para depuración
         console.error("Error al eliminar hacienda:", error);
         // Maneja el error según tus necesidades
       });
   };
+  
+  
 
   const actionColumn: GridColDef = {
     field: "action",
