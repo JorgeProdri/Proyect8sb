@@ -40,7 +40,7 @@ const Finca = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("http://simulacion22.000webhostapp.com/api/Hacienda.php")
+    axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
       .then(response => {
         const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
           ...hacienda,
@@ -54,10 +54,10 @@ const Finca = () => {
   const handleAddHacienda = (data: { nomb_hacienda: string, direccion_hacienda: string, contac_hacienda: number }) => {
     console.log("Datos recibidos en handleAddHacienda:", data);
 
-    axios.post("http://simulacion22.000webhostapp.com/api/Hacienda.php", data)
+    axios.post("http://104.248.120.74/8sb/api/Hacienda.php", data)
       .then(response => {
         console.log("Respuesta de la API:", response.data);
-        axios.get("http://simulacion22.000webhostapp.com/api/Hacienda.php")
+        axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
           .then(response => {
             const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
               ...hacienda,
