@@ -17,13 +17,14 @@
     border-radius: 30px;
     background-color: #e3e377;
     position: relative;
-    max-width: 600px; // Establecer un ancho máximo para el modal
+    max-width: 600px;
 
     h1 {
       margin-bottom: 40px;
       font-size: 24px;
-      color: $soft-color;
+      color: black;
     }
+
     .close {
       position: absolute;
       top: 10px;
@@ -44,14 +45,15 @@
           font-size: 14px;
         }
 
-        input {
+        input,
+        select {
           width: 100%;
           padding: 10px;
           background-color: transparent;
-          color:  black;
+          color:  rgb(5, 4, 4);
           outline: none;
           border-radius: 3px;
-          border: 1px solid $soft-color;
+          border: 1px solid black;
         }
 
         &.hidden {

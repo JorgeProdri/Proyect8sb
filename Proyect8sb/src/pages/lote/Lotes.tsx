@@ -11,7 +11,7 @@ interface Lote {
   nomb_lote: string;
   dimenx_lote: number;
   dimeny_lote: number;
-  estado_lote: string; // Asumiendo que estado_lote es de tipo string, ajusta según tus datos reales
+  estado_lote: string; 
   cod_hacienda: number;
 }
 
