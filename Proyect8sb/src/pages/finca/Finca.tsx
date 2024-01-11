@@ -36,13 +36,12 @@ const columns: GridColDef[] = [
 ];
 
 const Finca = () => {
-  const [haciendas, setHaciendas] = useState<Hacienda[]>([]); // Asegúrate de tener el tipo Hacienda aquí
+  const [haciendas, setHaciendas] = useState<Hacienda[]>([]);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("https://simulacion7sb.000webhostapp.com/8SB/hacienda.php")
+    axios.get("http://simulacion22.000webhostapp.com/api/Hacienda.php")
       .then(response => {
-        // Renombrar el campo cod_hacienda a id
         const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
           ...hacienda,
           id: hacienda.cod_hacienda,
@@ -52,6 +51,30 @@ const Finca = () => {
       .catch(error => console.error("Error al obtener datos de hacienda:", error));
   }, []);
 
+  const handleAddHacienda = (data: { nomb_hacienda: string, direccion_hacienda: string, contac_hacienda: number }) => {
+    console.log("Datos recibidos en handleAddHacienda:", data);
+
+    axios.post("http://simulacion22.000webhostapp.com/api/Hacienda.php", data)
+      .then(response => {
+        console.log("Respuesta de la API:", response.data);
+        axios.get("http://simulacion22.000webhostapp.com/api/Hacienda.php")
+          .then(response => {
+            const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
+              ...hacienda,
+              id: hacienda.cod_hacienda,
+            }));
+            setHaciendas(haciendasWithId);
+          })
+          .catch(error => console.error("Error al obtener datos de hacienda:", error));
+      })
+      .catch(error => {
+        console.error("Error al enviar datos a la API:", error);
+        // Manejar el error según tus necesidades
+      });
+
+    setOpen(false);
+  };
+
   return (
     <div className="users">
       <div className="info">
@@ -59,7 +82,7 @@ const Finca = () => {
         <button onClick={() => setOpen(true)}>Añadir Hacienda</button>
       </div>
       <DataTableH slug="Hacienda" columns={columns} rows={haciendas} />
-      {open && <AddHaciendaModal setOpen={setOpen} updateHaciendas={() => {}} />}
+      {open && <AddHaciendaModal open={open} handleClose={() => setOpen(false)} handleAddHacienda={handleAddHacienda} />}
     </div>
   );
 };

@@ -1,101 +1,70 @@
 import React, { useState } from "react";
-import axios from "axios";
-import "./addhacienda.scss";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
-interface Hacienda {
-  nomb_hacienda: string;
-  direccion_hacienda: string;
-  contac_hacienda: string;
+interface AddHaciendaModalProps {
+  open: boolean;
+  handleClose: () => void;
+  handleAddHacienda: (data: { nomb_hacienda: string, direccion_hacienda: string, contac_hacienda: number }) => void;
 }
 
-interface Props {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  updateHaciendas: () => void;
-}
-
-const AddHaciendaModal: React.FC<Props> = ({ setOpen, updateHaciendas }) => {
-  const [formValues, setFormValues] = useState<Hacienda>({
+const AddHaciendaModal: React.FC<AddHaciendaModalProps> = ({ open, handleClose, handleAddHacienda }) => {
+  const [haciendaData, setHaciendaData] = useState({
     nomb_hacienda: "",
     direccion_hacienda: "",
-    contac_hacienda: "",
+    contac_hacienda: 0,
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormValues({
-      ...formValues,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setHaciendaData({
+      ...haciendaData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleAdd = () => {
+    // Validar y enviar los datos
+    if (haciendaData.nomb_hacienda && haciendaData.direccion_hacienda && haciendaData.contac_hacienda) {
+      console.log("Enviando datos a la API:", haciendaData);
 
-    try {
-      const response = await axios.post(
-        "https://simulacion7sb.000webhostapp.com/8SB/hacienda.php",
-        {
-          action: 'create',
-          nomb_hacienda: formValues.nomb_hacienda,
-          direccion_hacienda: formValues.direccion_hacienda,
-          contac_hacienda: formValues.contac_hacienda,
-        }
-      );
-
-      console.log("Datos guardados exitosamente:", response.data);
-      updateHaciendas();
-      setOpen(false);
-    } catch (error) {
-      console.error("Error al guardar datos de la hacienda:", error);
+      handleAddHacienda(haciendaData);
+      setHaciendaData({
+        nomb_hacienda: "",
+        direccion_hacienda: "",
+        contac_hacienda: 0,
+      });
+      handleClose();
     }
   };
 
   return (
-    <div className="add-hacienda-modal">
-      <div className="modal">
-        <span className="close" onClick={() => setOpen(false)}>
-          X
-        </span>
-        <h1>Añadir nueva Hacienda</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="item" key="nomb_hacienda">
-            <label>Nombre de la Hacienda</label>
-            <input
-              type="text"
-              placeholder="Nombre de la Hacienda"
-              name="nomb_hacienda"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="direccion_hacienda">
-            <label>Dirección de la Hacienda</label>
-            <input
-              type="text"
-              placeholder="Dirección de la Hacienda"
-              name="direccion_hacienda"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="contac_hacienda">
-            <label>Contacto de la Hacienda</label>
-            <input
-              type="text"
-              placeholder="Contacto de la Hacienda"
-              name="contac_hacienda"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-    </div>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "background.paper",
+        boxShadow: 24,
+        p: 4,
+        borderRadius: 8, // Agregamos un borde redondeado
+        textAlign: "center", // Alineamos el contenido al centro
+      }}>
+        <h2 style={{ marginBottom: 20 }}>Agregar Hacienda</h2>
+        <TextField label="Nombre" name="nomb_hacienda" value={haciendaData.nomb_hacienda} onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Dirección" name="direccion_hacienda" value={haciendaData.direccion_hacienda} onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Contacto" name="contac_hacienda" type="number" value={haciendaData.contac_hacienda} onChange={handleChange} fullWidth margin="normal" />
+        <Button variant="contained" onClick={handleAdd} style={{ marginTop: 20, backgroundColor: "green", color: "white", borderRadius: 20 }}>Agregar</Button>
+      </Box>
+    </Modal>
   );
 };
 
