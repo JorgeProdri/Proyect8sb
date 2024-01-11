@@ -1,97 +1,76 @@
-import React, { useState, useEffect } from "react";
-import "./addlote.scss"; // Asegúrate de tener este archivo de estilos
-import { GridColDef } from "@mui/x-data-grid";
-import axios from "axios";
+import React, { useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
-type Props = {
-  slug: string;
-  columns: GridColDef[];
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+interface AddLotesModalProps {
+  open: boolean;
+  handleClose: () => void;
+  handleAddLotes: (data: { nomb_lote: string, dimenx_lote: string, dimeny_lote: string, estado_lote: string, cod_hacienda: string }) => void;
+}
 
-const AddLotes = (props: Props) => {
-  const [formValues, setFormValues] = useState<{ [key: string]: string }>({
-    estado_lote: "activo", // Establecer el estado_lote por defecto como "activo"
+const AddLotes: React.FC<AddLotesModalProps> = ({ open, handleClose, handleAddLotes }) => {
+  const [loteData, setLoteData] = useState({
+    nomb_lote: "",
+    dimenx_lote: "",
+    dimeny_lote: "",
+    estado_lote: "",
+    cod_hacienda: "",
   });
-  const [haciendas, setHaciendas] = useState<{ id: number; codigo: string }[]>([]);
 
-  useEffect(() => {
-    // Obtener datos de haciendas al montar el componente
-    axios.get("https://simulacion7sb.000webhostapp.com/8SB/hacienda.php")
-      .then((response) => {
-        setHaciendas(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener datos de haciendas:", error);
-      });
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormValues({
-      ...formValues,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoteData({
+      ...loteData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleAdd = () => {
+    // Validar y enviar los datos
+    if (loteData.nomb_lote && loteData.dimenx_lote && loteData.dimeny_lote && loteData.estado_lote && loteData.cod_hacienda) {
+      console.log("Enviando datos a la API:", loteData);
 
-    const isEmptyField = Object.values(formValues).some((value) => !value.trim());
-
-    if (isEmptyField) {
-      alert("Por favor, completa todos los campos antes de enviar.");
-    } else {
-      try {
-        // Enviar datos a la API
-        await axios.post("https://simulacion7sb.000webhostapp.com/8SB/lote.php", formValues);
-
-        // Cerrar el modal después de enviar datos
-        props.setOpen(false);
-      } catch (error) {
-        console.error("Error al enviar datos a la API:", error);
-        // Puedes manejar el error de la manera que consideres apropiada
-        alert("Error al enviar datos. Por favor, intenta de nuevo.");
-      }
+      handleAddLotes(loteData);
+      setLoteData({
+        nomb_lote: "",
+        dimenx_lote: "",
+        dimeny_lote: "",
+        estado_lote: "",
+        cod_hacienda: "",
+      });
+      handleClose();
     }
   };
 
   return (
-    <div className="addlote">
-      <div className="modal">
-        <span className="close" onClick={() => props.setOpen(false)}>
-          X
-        </span>
-        <h1>Añadir nuevo {props.slug}</h1>
-        <form onSubmit={handleSubmit}>
-          {props.columns
-            .filter((item) => item.field !== "id" && item.field !== "img" && item.field !== "cod_lote")
-            .map(({ field, type, headerName }) => (
-              <div className={`item ${field === "codigo" ? "hidden" : ""}`} key={field}>
-                <label>{headerName}</label>
-                {field === "cod_hacienda" ? (
-                  <select name={field} onChange={handleChange} required>
-                    <option value="">Seleccionar Hacienda</option>
-                    {haciendas.map((hacienda) => (
-                      <option key={hacienda.id} value={hacienda.codigo}>
-                        {hacienda.codigo}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <input
-                    type={type}
-                    placeholder={field}
-                    name={field}
-                    onChange={handleChange}
-                    required
-                  />
-                )}
-              </div>
-            ))}
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-    </div>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 400,
+        bgcolor: "background.paper",
+        boxShadow: 24,
+        p: 4,
+        borderRadius: 8,
+        textAlign: "center",
+      }}>
+        <h2 style={{ marginBottom: 20 }}>Agregar Lote</h2>
+        <TextField label="Nombre del Lote" name="nomb_lote" value={loteData.nomb_lote} onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Dimensión x del Lote" name="dimenx_lote" value={loteData.dimenx_lote} onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Dimensión y del Lote" name="dimeny_lote" value={loteData.dimeny_lote} onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Estado del Lote" name="estado_lote" value={loteData.estado_lote} onChange={handleChange} fullWidth margin="normal" />
+        <TextField label="Código de Hacienda" name="cod_hacienda" value={loteData.cod_hacienda} onChange={handleChange} fullWidth margin="normal" />
+        <Button variant="contained" onClick={handleAdd} style={{ marginTop: 20, backgroundColor: "green", color: "white", borderRadius: 20 }}>Agregar</Button>
+      </Box>
+    </Modal>
   );
 };
 
