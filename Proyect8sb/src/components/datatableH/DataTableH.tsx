@@ -1,11 +1,9 @@
-import React from "react";
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbar,
-} from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import "./dataTableh.scss";
+// DataTableH.tsx
+
+import React, { useState } from "react";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+
+import EditHaciendaModal from "../modalhacienda/EditHaciendaModal";
 import axios from "axios";
 
 interface Hacienda {
@@ -17,23 +15,58 @@ interface Hacienda {
 
 type Props = {
   columns: GridColDef[];
-  rows: Hacienda[];  // Corregido aquí
+  rows: Hacienda[];
   slug: string;
-  setHaciendas: React.Dispatch<React.SetStateAction<Hacienda[]>>;  // Corregido aquí
+  setHaciendas: React.Dispatch<React.SetStateAction<Hacienda[]>>;
 };
 
 const DataTableH: React.FC<Props> = (props) => {
-  const { columns, rows, slug, setHaciendas } = props;
+  const { columns, rows,setHaciendas } = props;
+  const [selectedHacienda, setSelectedHacienda] = useState<Hacienda | null>(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+
+  const handleEditModalOpen = (hacienda: Hacienda) => {
+    setSelectedHacienda(hacienda);
+    setEditModalOpen(true);
+  };
+
+  const handleEditModalClose = () => {
+    setSelectedHacienda(null);
+    setEditModalOpen(false);
+  };
+
+  const handleEditHacienda = (id: number, data: { nomb_hacienda: string, direccion_hacienda: string, contac_hacienda: number }) => {
+    axios.post("http://104.248.120.74/8sb/api/Hacienda.php", {
+      action: "update",
+      cod_hacienda: id,
+      ...data,
+    })
+    .then(response => {
+      console.log("Respuesta de la API:", response.data);
+
+      axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
+        .then(response => {
+          const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
+            ...hacienda,
+            id: hacienda.cod_hacienda,
+          }));
+          setHaciendas(haciendasWithId);
+        })
+        .catch(error => console.error("Error al obtener datos de hacienda:", error));
+    })
+    .catch(error => {
+      console.error("Error al actualizar hacienda:", error);
+      // Maneja el error según tus necesidades
+    });
+
+    handleEditModalClose();
+  };
 
   const handleDelete = (id: number) => {
-    axios.delete(`http://104.248.120.74/8sb/api/Hacienda.php?id=${id}&action=delete`)
+    axios.post(`http://104.248.120.74/8sb/api/Hacienda.php?id=${id}&action=delete`)
       .then(response => {
         console.log("Respuesta de la API:", response.data);
 
-        // Lógica adicional después de eliminar, si es necesario
-        console.log("Hacienda eliminada correctamente");
-
-        // Actualiza la lista de haciendas, puedes hacer otra solicitud GET o actualizar el estado directamente
         axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
           .then(response => {
             const haciendasWithId: Hacienda[] = response.data.map((hacienda: Hacienda) => ({
@@ -50,49 +83,50 @@ const DataTableH: React.FC<Props> = (props) => {
       });
   };
 
-  const actionColumn: GridColDef = {
-    field: "action",
-    headerName: "Action",
-    width: 200,
-    renderCell: (params) => {
-      return (
-        <div className="action">
-          <Link to={`/${slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
-          </Link>
-          <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="/delete.svg" alt="" />
-          </div>
+  const editColumn: GridColDef = {
+    field: "edit",
+    headerName: "Edit",
+    width: 100,
+    renderCell: (params) => (
+      <div className="action">
+        <div className="edit" onClick={() => handleEditModalOpen(params.row)}>
+          <img className="edit-icon" src="/view.svg" alt="Edit" />
         </div>
-      );
-    },
+      </div>
+    ),
+  };
+
+  const deleteColumn: GridColDef = {
+    field: "delete",
+    headerName: "Delete",
+    width: 100,
+    renderCell: (params) => (
+      <div className="action">
+        <div className="delete" onClick={() => handleDelete(params.row.cod_hacienda)}>
+          <img className="delete-icon" src="/delete.svg" alt="Delete" />
+        </div>
+      </div>
+    ),
   };
 
   return (
     <div className="dataTable">
       <DataGrid
         rows={rows}
-        columns={[...columns, actionColumn]}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
-          toolbar: {
-            showQuickFilter: true,
-            quickFilterProps: { debounceMs: 500 },
-          },
-        }}
-        pageSizeOptions={[5]}
+        columns={[...columns, editColumn, deleteColumn]}
+        components={{ Toolbar: GridToolbar }}
         checkboxSelection
         disableRowSelectionOnClick
         disableColumnFilter
         disableDensitySelector
         disableColumnSelector
+        pageSizeOptions={[5]} // Establece la cantidad predeterminada de filas por página
+      />
+      <EditHaciendaModal
+        open={editModalOpen}
+        handleClose={handleEditModalClose}
+        handleEditHacienda={handleEditHacienda}
+        haciendaData={selectedHacienda || { cod_hacienda: 0, nomb_hacienda: "", direccion_hacienda: "", contac_hacienda: 0 }}
       />
     </div>
   );

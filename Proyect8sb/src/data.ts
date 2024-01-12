@@ -59,7 +59,7 @@ export const menu = [
       },
       {
         id: 2,
-        title: "Precipitación",
+        title: "Radiacion",
         url: "/Pr",
         icon: "order.svg",
       },

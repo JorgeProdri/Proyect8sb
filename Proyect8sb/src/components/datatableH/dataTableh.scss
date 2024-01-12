@@ -2,14 +2,16 @@
   .dataGrid {
     background: white;
     padding: 20px;
+    height: 200px;
 
     .MuiDataGrid-toolbarContainer {
-      flex-direction: row-reverse;
+      display: flex;
+      justify-content: space-between;
     }
 
     img {
-      width: 32px;
-      height: 32px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       object-fit: cover;
     }
@@ -17,27 +19,30 @@
     .action {
       display: flex;
       gap: 15px;
+      align-items: center;
 
-      img {
-        width: 20px;
-        height: 20px;
+      .delete-icon,
+      .edit-icon {
+        width: 42px;
+        height: 42px;
         cursor: pointer;
+      }
+
+      .edit-icon {
+        order: 2;
       }
     }
   }
 
-  // Consulta de medios para dispositivos móviles
   @media only screen and (max-width: 600px) {
     .dataGrid {
-      padding: 10px; /* Reducción del padding en dispositivos móviles */
+      padding: 10px;
     }
 
     .action {
-      flex-direction: column; /* Cambio del estilo de la acción a columna en dispositivos móviles */
-    }
-
-    img {
-      margin-bottom: 10px; /* Agregado de espacio entre imágenes en dispositivos móviles */
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
     }
   }
 }
