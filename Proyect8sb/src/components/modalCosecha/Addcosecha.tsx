@@ -46,13 +46,10 @@ const AddCosecha: React.FC<AddCosechaModalProps> = ({ open, handleClose, handleA
   const handleAdd = () => {
     // Validar y enviar los datos
     if (cosechaData.fecha_cosecha && cosechaData.produc_cosecha && cosechaData.estado_cosecha && cosechaData.cod_lote) {
-      // Convertir la cadena de fecha a un objeto Date
-      const fechaCosechaDate = new Date(cosechaData.fecha_cosecha);
-      const formattedFechaCosecha = fechaCosechaDate.toISOString(); // Formato estándar ISO
-
       const dataToSend = {
         ...cosechaData,
-        fecha_cosecha: formattedFechaCosecha,
+        // Omitir la parte de la hora
+        fecha_cosecha: cosechaData.fecha_cosecha.split('T')[0],
       };
 
       console.log("Enviando datos a la API:", dataToSend);

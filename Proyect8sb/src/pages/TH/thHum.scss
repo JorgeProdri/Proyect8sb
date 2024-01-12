@@ -1,0 +1,28 @@
+// thHum.scss
+.th-hum-container {
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 900px; // Ancho total del contenedor (ajustado para ambos gráficos)
+    margin-left: auto; // Mueve el contenedor hacia la derecha
+    margin-right: 0; // Asegura que no haya margen a la derecha
+    display: center; // Usa flexbox para centrar el contenido horizontalmente
+    flex-direction: column; // Asegura que los elementos hijos se apilen verticalmente
+    align-items: center; // Centra los elementos horizontalmente
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: space-between; // Distribuye los gráficos a lo largo del contenedor
+    width: 100%; // Ajusta el ancho de la caja contenedora
+  }
+  
+  .th-hum-chart {
+    width: 48%; // Ajusta el ancho de cada gráfico
+    height: 400px;
+    margin-bottom: 20px;
+  }
+  

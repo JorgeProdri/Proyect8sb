@@ -1,39 +1,44 @@
-
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Brush,
-} from 'recharts';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Pr = () => {
-  // Datos de ejemplo para el gráfico de barras horizontales con scrollbar
-  const data = [
-    { mes: 'Enero', precipitacion: 30 },
-    { mes: 'Febrero', precipitacion: 45 },
-    { mes: 'Marzo', precipitacion: 20 },
-    { mes: 'Abril', precipitacion: 60 },
-    { mes: 'Mayo', precipitacion: 15 },
-    // Agrega más datos según sea necesario
-  ];
+  const [radiacionData, setRadiacionData] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://104.248.120.74/8sb/api/clima.php');
+        const climaData = response.data;
+
+        // Obtén los últimos 7 datos de radiación solar
+        const ultimosDatos = climaData.slice(-7).map((item: any) => ({ rad_solar: item.rad_solar }));
+
+        // Actualiza el estado con los datos
+        setRadiacionData(ultimosDatos);
+      } catch (error) {
+        console.error('Error al obtener datos de radiación solar:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
-      <div>Gráfico de Precipitación con Scrollbar</div>
+      <div>Gráfico de Radiación Solar</div>
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          data={data}
+        <LineChart
+          data={radiacionData}
           margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
         >
-          <XAxis dataKey="mes" />
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="rad_solar" />
           <YAxis type="number" />
           <Tooltip />
-          <Bar dataKey="precipitacion" fill="#82ca9d" />
-          <Brush dataKey="mes" height={30} stroke="#8884d8" />
-        </BarChart>
+          <Legend />
+          <Line type="monotone" dataKey="rad_solar" stroke="#82ca9d" />
+        </LineChart>
       </ResponsiveContainer>
     </div>
   );
