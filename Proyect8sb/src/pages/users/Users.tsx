@@ -1,69 +1,118 @@
 import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../components/dataTable/DataTable";
-import "./users.scss";
+import "./users.scss"; 
 import AddUsuarios from "../../components/modalUsuario/AddUsuarios";
 import axios from "axios";
 
-interface User { 
+interface Usuario {
+  id: number;
   cod_usuario: number;
   nomb_usuario: string;
   ape_usuario: string;
   user_usuario: string;
+  pass_usuario: string;
   telefono_usuario: string;
   estado_usuario: string;
   cod_hacienda: number;
 }
+const columns: GridColDef[] = [
+  {
+    field: "cod_usuario",
+    type: "number",
+    width: 100,
+  },
+  {
+    field: "nomb_usuario",
+    type: "string",
+    headerName: "Nombre",
+    width: 120,
+  },
+  {
+    field: "ape_usuario",
+    type: "string",
+    headerName: "Apellido",
+    width: 120,
+  },
+  {
+    field: "user_usuario",
+    type: "string",
+    headerName: "Usuario",
+    width: 120,
+  },
+  {
+    field: "telefono_usuario",
+    type: "number",
+    headerName: "Teléfono",
+    width: 120,
+  },
+  {
+    field: "estado_usuario",
+    type: "string",
+    headerName: "Estado",
+    width: 100,
+  },
+  {
+    field: "cod_hacienda",
+    type: "number",
+    headerName: "Código Hacienda",
+    width: 150,
+  },
+];
 
 const Users = () => {
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [open, setOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    // Hacer la solicitud a la API para obtener los usuarios
-    axios.get("https://simulacion7sb.000webhostapp.com/8SB/user.php")
-      .then(response => {
-        // Asigna un 'id' único basado en 'cod_usuario' a cada usuario
-        const usersWithIds = response.data.map((user: User, index: number) => ({
-          ...user,
-          id: index + 1, // Puedes ajustar esto según tu lógica de generación de 'id'
-        }));
-        setUsers(usersWithIds);
-      })
-      .catch(error => console.error("Error al obtener usuarios:", error));
-  }, []); // Se ejecutará solo una vez al montar el componente
+    fetchUsuariosData();
+  }, []);
 
-  const handleDelete = (userId: number) => {
-    // Agrega la lógica para eliminar un usuario aquí
-    console.log(`Eliminar usuario con ID: ${userId}`);
+  const fetchUsuariosData = () => {
+    axios.get("http://104.248.120.74/8sb/api/user.php")
+      .then((response) => {
+        const usuariosWithId: Usuario[] = response.data.map((usuario: Usuario) => ({
+          ...usuario,
+          id: usuario.cod_usuario,
+        }));
+        setUsuarios(usuariosWithId);
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos de usuarios:", error);
+      });
   };
 
-  const columns: GridColDef[] = [
-    { field: "cod_usuario", headerName: "Código de Usuario", width: 150 },
-    { field: "nomb_usuario", headerName: "Nombre", width: 130 },
-    { field: "ape_usuario", headerName: "Apellido", width: 130 },
-    { field: "user_usuario", headerName: "Usuario", width: 100 },
-    { field: "telefono_usuario", headerName: "Teléfono", width: 130 },
-    { field: "estado_usuario", headerName: "Estado", width: 100 },
-    { field: "cod_hacienda", headerName: "Hacienda", width: 100 },
-  ];
+  const handleAddUser = (data: {
+    nomb_usuario: string;
+    ape_usuario: string;
+    user_usuario: string;
+    pass_usuario: string;
+    telefono_usuario: string;
+    estado_usuario: string;
+    cod_hacienda: string;
+  }) => {
+    const dataWithAction = { ...data, action: 'create' };
+
+    axios.post("http://104.248.120.74/8sb/api/user.php", dataWithAction)
+      .then(response => {
+        console.log("Respuesta de la API:", response.data);
+        fetchUsuariosData();
+      })
+      .catch(error => {
+        console.error("Error al enviar datos a la API:", error);
+      });
+
+    setOpen(false);
+  };
 
   return (
     <div className="users">
-      <div className="info">
-        <h1>Usuarios</h1>
-        <button onClick={() => setOpen(true)}>Añadir Usuario</button>
+      <h1>Usuarios</h1>
+      <div className="button">
+        <button onClick={() => setOpen(true)}>Agregar Usuario</button>
       </div>
-
-      {/* Utiliza el estado 'users' obtenido de la API */}
-      <DataTable
-        slug="users"
-        columns={columns}
-        rows={users}
-        onDelete={handleDelete} // Asegúrate de pasar la función onDelete si es necesario
-      />
-
-      {open && <AddUsuarios slug="ususario" columns={columns} setOpen={setOpen} />}
+      <AddUsuarios open={open} handleClose={() => setOpen(false)} handleAddUser={handleAddUser} />
+      <DataTable columns={columns} rows={usuarios} slug="usuario" setUsuarios={setUsuarios} />
     </div>
   );
 };

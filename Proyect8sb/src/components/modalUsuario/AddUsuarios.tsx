@@ -1,201 +1,198 @@
-import React, { useState, useEffect } from "react";
-import "./addusuarios.scss";
-import { GridColDef } from "@mui/x-data-grid";
+import React, { useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import axios from "axios";
+import "./addusuarios.scss"; // Asegúrate de importar el archivo de estilos si es necesario
 
-type Props = {
-  slug: string;
-  columns: GridColDef[];
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-interface Hacienda {
-  cod_hacienda: number;
-  // Otros campos de la hacienda según tu API
+interface AddUsuariosModalProps {
+  open: boolean;
+  handleClose: () => void;
+  handleAddUser: (data: {
+    nomb_usuario: string;
+    ape_usuario: string;
+    user_usuario: string;
+    pass_usuario: string;
+    telefono_usuario: string;
+    estado_usuario: string;
+    cod_hacienda: string;
+  }) => void;
 }
 
-const AddUsuarios = (props: Props) => {
-  const [nombUsuario, setNombUsuario] = useState("");
-  const [apeUsuario, setApeUsuario] = useState("");
-  const [userUsuario, setUserUsuario] = useState("");
-  const [passUsuario, setPassUsuario] = useState("");
-  const [telefonoUsuario, setTelefonoUsuario] = useState("");
-  const [estadoUsuario, setEstadoUsuario] = useState("");
-  const [codHacienda, setCodHacienda] = useState("");
-  const [haciendas, setHaciendas] = useState<Hacienda[]>([]);
+const AddUsuarios: React.FC<AddUsuariosModalProps> = ({ open, handleClose, handleAddUser }) => {
+  const [usuarioData, setUsuarioData] = useState({
+    nomb_usuario: "",
+    ape_usuario: "",
+    user_usuario: "",
+    pass_usuario: "",
+    telefono_usuario: "",
+    estado_usuario: "",
+    cod_hacienda: "",
+  });
 
-  useEffect(() => {
-    // Hacer la solicitud a la API para obtener los códigos de hacienda
-    axios.get("https://simulacion7sb.000webhostapp.com/8SB/hacienda.php")
-      .then(response => setHaciendas(response.data))
-      .catch(error => console.error("Error al obtener códigos de hacienda:", error));
-  }, []); // Se ejecutará solo una vez al montar el componente
+  const [haciendas, setHaciendas] = useState([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const value = e.target.value;
-    switch (e.target.name) {
-      case "nomb_usuario":
-        setNombUsuario(value);
-        break;
-      case "ape_usuario":
-        setApeUsuario(value);
-        break;
-      case "user_usuario":
-        setUserUsuario(value);
-        break;
-      case "pass_usuario":
-        setPassUsuario(value);
-        break;
-      case "telefono_usuario":
-        setTelefonoUsuario(value);
-        break;
-      case "estado_usuario":
-        setEstadoUsuario(value);
-        break;
-      case "cod_hacienda":
-        setCodHacienda(value);
-        break;
-      default:
-        break;
-    }
+  React.useEffect(() => {
+    axios.get("http://104.248.120.74/8sb/api/Hacienda.php")
+      .then(response => {
+        setHaciendas(response.data);
+      })
+      .catch(error => {
+        console.error("Error al obtener datos de hacienda:", error);
+      });
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>) => {
+    const { name, value } = e.target;
+    setUsuarioData({
+      ...usuarioData,
+      [name as string]: value,
+    });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const isEmptyField = [nombUsuario, apeUsuario, userUsuario, passUsuario, telefonoUsuario, estadoUsuario, codHacienda].some(value => !value.trim());
-
-    if (isEmptyField) {
-      alert("Por favor, completa todos los campos antes de enviar.");
-    } else {
-      // Mostrar por consola todos los datos antes de enviar
-      console.log("Datos a enviar:", { nombUsuario, apeUsuario, userUsuario, passUsuario, telefonoUsuario, estadoUsuario, codHacienda });
-
-      // Realizar la solicitud POST para guardar los datos en la API
-      axios.post("https://simulacion7sb.000webhostapp.com/8SB/user.php", {
-        nomb_usuario: nombUsuario,
-        ape_usuario: apeUsuario,
-        user_usuario: userUsuario,
-        pass_usuario: passUsuario,
-        telefono_usuario: telefonoUsuario,
-        estado_usuario: estadoUsuario,
-        cod_hacienda: codHacienda,
-      })
-        .then(response => {
-          console.log("Datos guardados exitosamente:", response.data);
-          props.setOpen(false);
-        })
-        .catch(error => console.error("Error al guardar datos:", error));
+  const handleAdd = () => {
+    if (
+      usuarioData.nomb_usuario &&
+      usuarioData.ape_usuario &&
+      usuarioData.user_usuario &&
+      usuarioData.pass_usuario &&
+      usuarioData.telefono_usuario &&
+      usuarioData.estado_usuario &&
+      usuarioData.cod_hacienda
+    ) {
+      handleAddUser(usuarioData);
+      setUsuarioData({
+        nomb_usuario: "",
+        ape_usuario: "",
+        user_usuario: "",
+        pass_usuario: "",
+        telefono_usuario: "",
+        estado_usuario: "",
+        cod_hacienda: "",
+      });
+      handleClose();
     }
   };
 
   return (
-    <div className="addusuarios">
-      <div className="modal">
-        <span className="close" onClick={() => props.setOpen(false)}>
-          X
-        </span>
-        <h1>Añadir nuevo {props.slug}</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="item" key="nomb_usuario">
-            <label>Nombre</label>
-            <input
-              type="text"
-              placeholder="Nombre"
-              name="nomb_usuario"
-              value={nombUsuario}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="ape_usuario">
-            <label>Apellido</label>
-            <input
-              type="text"
-              placeholder="Apellido"
-              name="ape_usuario"
-              value={apeUsuario}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="user_usuario">
-            <label>Usuario</label>
-            <input
-              type="text"
-              placeholder="Usuario"
-              name="user_usuario"
-              value={userUsuario}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="pass_usuario">
-            <label>Contraseña</label>
-            <input
-              type="password"
-              placeholder="Contraseña"
-              name="pass_usuario"
-              value={passUsuario}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="telefono_usuario">
-            <label>Teléfono</label>
-            <input
-              type="int"
-              placeholder="Teléfono"
-              name="telefono_usuario"
-              value={telefonoUsuario}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="item" key="estado_usuario">
-            <label>Estado</label>
-            <select
-              name="estado_usuario"
-              value={estadoUsuario}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>
-                Seleccione un estado
-              </option>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-          </div>
-
-          <div className="item" key="cod_hacienda">
-            <label>Código de Hacienda</label>
-            <select
-              name="cod_hacienda"
-              value={codHacienda}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>
-                Seleccione un código de hacienda
-              </option>
-              {haciendas.map((hacienda) => (
-                <option key={hacienda.cod_hacienda} value={hacienda.cod_hacienda}>
-                  {hacienda.cod_hacienda} {/* Puedes ajustar según la estructura de tu API */}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-    </div>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "90%", // Ancho del 90% para pantallas pequeñas
+          maxWidth: "500px", // Ancho máximo de 500px
+          height: "70vh", // Usando 70% del alto de la pantalla
+          overflowY: "auto", // Agregar desplazamiento vertical si el contenido es más grande
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 4,
+          borderRadius: 2,
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ marginBottom: 20 }}>Agregar Usuario</h2>
+        <TextField
+          label="Nombre del Usuario"
+          name="nomb_usuario"
+          value={usuarioData.nomb_usuario}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Apellido del Usuario"
+          name="ape_usuario"
+          value={usuarioData.ape_usuario}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Usuario"
+          name="user_usuario"
+          value={usuarioData.user_usuario}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Contraseña"
+          name="pass_usuario"
+          type="password"
+          value={usuarioData.pass_usuario}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Teléfono del Usuario"
+          name="telefono_usuario"
+          value={usuarioData.telefono_usuario}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <p style={{ textAlign: "left", marginBottom: 5 }}>
+          Seleccionar el estado del Usuario:
+        </p>
+        <Select
+          label="Estado del Usuario"
+          name="estado_usuario"
+          value={usuarioData.estado_usuario}
+          onChange={(e) =>
+            handleChange(e as React.ChangeEvent<{ name?: string | undefined; value: unknown }>)
+          }
+          className="custom-select"
+        >
+          <MenuItem value="Activo">Activo</MenuItem>
+          <MenuItem value="Inactivo">Inactivo</MenuItem>
+        </Select>
+        <p style={{ textAlign: "left", marginBottom: 5 }}>
+          Seleccionar la hacienda:
+        </p>
+        <Select
+          label="Código de Hacienda"
+          name="cod_hacienda"
+          value={usuarioData.cod_hacienda}
+          onChange={(e) =>
+            handleChange(e as React.ChangeEvent<{ name?: string | undefined; value: unknown }>)
+          }
+          className="custom-select"
+        >
+          {haciendas.map((hacienda: any) => (
+            <MenuItem key={hacienda.cod_hacienda} value={hacienda.cod_hacienda}>
+              {hacienda.nomb_hacienda}
+            </MenuItem>
+          ))}
+        </Select>
+        <p style={{ textAlign: "left", marginBottom: 5 }}>
+          Asegurar de rellenar todos los datos:
+        </p>
+        <Button
+          variant="contained"
+          onClick={handleAdd}
+          style={{
+            marginTop: 40,
+            backgroundColor: "green",
+            color: "white",
+            borderRadius: 20,
+          }}
+        >
+          Agregar
+        </Button>
+      </Box>
+    </Modal>
   );
 };
 
