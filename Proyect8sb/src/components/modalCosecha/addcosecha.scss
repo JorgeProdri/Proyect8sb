@@ -1,101 +1,36 @@
 @import "../../styles/variables.scss";
 
-.addcosecha {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
+/* Estilos generales del modal */
+.modal-content {
+  background-color: #fff; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.724);
-  transition: opacity 0.3s, transform 0.3s;
+}
+.custom-select {
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  margin-bottom: 10px; /* Puedes ajustar este margen según tu diseño */
+  // Agrega más estilos según sea necesario
+}
+/* Estilos para pantallas pequeñas (menos de 576px) */
+@media (max-width: 575.98px) {
+  .modal-content {
+    width: 90%; /* Ancho del 90% */
+    max-width: 500px; /* Ancho máximo de 500px */
+  }
+}
 
-  .modal {
-    padding: 50px;
-    border-radius: 30px;
-    background-color: #e3e377;
-    position: relative;
-    max-width: 600px; // Establecer un ancho máximo para el modal
+/* Estilos para pantallas medianas (entre 576px y 767.98px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .modal-content {
+    width: 80%; /* Ancho del 80% */
+    max-width: 500px; /* Ancho máximo de 500px */
+  }
+}
 
-    h1 {
-      margin-bottom: 40px;
-      font-size: 24px;
-      color: $soft-color;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      gap: 10px;
-
-      img {
-        width: 80px;
-        height: 80px;
-        border-radius: 100%;
-      }
-    }
-
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      cursor: pointer;
-    }
-
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-
-      .item {
-        width: 48%;
-        margin-bottom: 20px;
-
-        label {
-          font-size: 14px;
-        }
-
-        input {
-          width: 100%;
-          padding: 10px;
-          background-color: transparent;
-          color: white;
-          outline: none;
-          border-radius: 3px;
-          border: 1px solid $soft-color;
-        }
-
-        &.hidden {
-          display: none;
-        }
-      }
-
-      button {
-        width: 100%;
-        padding: 10px;
-        cursor: pointer;
-        background-color: green;
-        border-radius: 3px;
-        color: rgb(3, 2, 2);
-
-        &:hover {
-          background-color: darkgreen;
-        }
-      }
-    }
-
-    @media only screen and (max-width: 600px) {
-      .modal {
-        padding: 20px;
-      }
-
-      .item {
-        width: 100%;
-      }
-    }
+/* Estilos para pantallas grandes (768px en adelante) */
+@media (min-width: 768px) {
+  .modal-content {
+    width: 60%; /* Ancho del 60% */
+    max-width: 500px; /* Ancho máximo de 500px */
   }
 }

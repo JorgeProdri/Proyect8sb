@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import DataTableC from "../../components/datatableC/DatatableC";
-import "./cosecha.scss"; // Ajusta la importación según sea necesario
+import "./cosecha.scss"; 
 import AddCosecha from "../../components/modalCosecha/Addcosecha";
 import axios from "axios";
 
