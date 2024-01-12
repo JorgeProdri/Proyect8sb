@@ -16,7 +16,7 @@ interface AddCosechaModalProps {
 
 const AddCosecha: React.FC<AddCosechaModalProps> = ({ open, handleClose, handleAddCosecha }) => {
   const [cosechaData, setCosechaData] = useState({
-    fecha_cosecha: "",
+    fecha_cosecha: "", // Cambiado a cadena de texto
     produc_cosecha: "",
     estado_cosecha: "",
     cod_lote: "",
@@ -46,14 +46,25 @@ const AddCosecha: React.FC<AddCosechaModalProps> = ({ open, handleClose, handleA
   const handleAdd = () => {
     // Validar y enviar los datos
     if (cosechaData.fecha_cosecha && cosechaData.produc_cosecha && cosechaData.estado_cosecha && cosechaData.cod_lote) {
-      console.log("Enviando datos a la API:", cosechaData);
-      handleAddCosecha(cosechaData);
+      // Convertir la cadena de fecha a un objeto Date
+      const fechaCosechaDate = new Date(cosechaData.fecha_cosecha);
+      const formattedFechaCosecha = fechaCosechaDate.toISOString(); // Formato estándar ISO
+
+      const dataToSend = {
+        ...cosechaData,
+        fecha_cosecha: formattedFechaCosecha,
+      };
+
+      console.log("Enviando datos a la API:", dataToSend);
+      handleAddCosecha(dataToSend);
+
       setCosechaData({
         fecha_cosecha: "",
         produc_cosecha: "",
         estado_cosecha: "",
         cod_lote: "",
       });
+
       handleClose();
     }
   };
@@ -81,8 +92,22 @@ const AddCosecha: React.FC<AddCosechaModalProps> = ({ open, handleClose, handleA
         textAlign: "center",
       }}>
         <h2 style={{ marginBottom: 20 }}>Agregar Cosecha</h2>
-        <TextField label="Fecha de Cosecha" name="fecha_cosecha" value={cosechaData.fecha_cosecha} onChange={handleChange} fullWidth margin="normal" />
-        <TextField label="Producción de Cosecha" name="produc_cosecha" value={cosechaData.produc_cosecha} onChange={handleChange} fullWidth margin="normal" />
+        <TextField
+          name="fecha_cosecha"
+          type="date" 
+          value={cosechaData.fecha_cosecha}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Producción de Cosecha"
+          name="produc_cosecha"
+          value={cosechaData.produc_cosecha}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+        />
         <p style={{ textAlign: "left", marginBottom: 5 }}>Seleccionar el estado de la Cosecha:</p>
         <Select
           label="Estado de la Cosecha"
